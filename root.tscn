@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" path="res://Game.cs" id="1_5cat5"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5ih"]
+size = Vector2(166, 30)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kfkac"]
 radius = 100.92
 height = 297.54
@@ -12,15 +15,22 @@ size = Vector2(250, 50)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jgu3q"]
 size = Vector2(200, 40)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5ih"]
-size = Vector2(166, 30)
-
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_5cat5")
 
 [node name="Player" type="RigidBody2D" parent="."]
 position = Vector2(412, 288)
 freeze = true
+
+[node name="Gun" type="RigidBody2D" parent="Player"]
+position = Vector2(258.529, -288.818)
+rotation = 0.052294
+scale = Vector2(1, 1)
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Gun"]
+position = Vector2(83.849, 0)
+shape = SubResource("RectangleShape2D_1v5ih")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_kfkac")
@@ -33,7 +43,7 @@ angular_limit_lower = -0.785398
 angular_limit_upper = 0.785398
 
 [node name="UpperHand" type="RigidBody2D" parent="Player"]
-rotation = -1.88672
+rotation = -0.425893
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/UpperHand"]
 position = Vector2(126, 1)
@@ -55,11 +65,4 @@ shape = SubResource("RectangleShape2D_jgu3q")
 [node name="PinJoint2D" type="PinJoint2D" parent="Player/UpperHand/LowerHand"]
 position = Vector2(193, 0)
 node_a = NodePath("..")
-node_b = NodePath("../Gun")
-
-[node name="Gun" type="RigidBody2D" parent="Player/UpperHand/LowerHand"]
-position = Vector2(192.07, -0.104235)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/UpperHand/LowerHand/Gun"]
-position = Vector2(83.849, 0)
-shape = SubResource("RectangleShape2D_1v5ih")
+node_b = NodePath("../../../Gun")
