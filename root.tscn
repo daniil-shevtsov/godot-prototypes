@@ -24,8 +24,9 @@ freeze = true
 
 [node name="Gun" type="RigidBody2D" parent="Player"]
 position = Vector2(258.529, -288.818)
-rotation = 0.052294
 scale = Vector2(1, 1)
+gravity_scale = 0.0
+lock_rotation = true
 freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Gun"]
@@ -45,14 +46,15 @@ angular_limit_upper = 0.785398
 [node name="UpperHand" type="RigidBody2D" parent="Player"]
 rotation = -0.425893
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/UpperHand"]
-position = Vector2(126, 1)
-shape = SubResource("RectangleShape2D_lyrka")
-
-[node name="PinJoint2D" type="PinJoint2D" parent="Player/UpperHand"]
+[node name="PinJoint2D2" type="PinJoint2D" parent="Player/UpperHand"]
 position = Vector2(244, 0)
 node_a = NodePath("..")
 node_b = NodePath("../LowerHand")
+bias = 0.9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/UpperHand"]
+position = Vector2(126, 1)
+shape = SubResource("RectangleShape2D_lyrka")
 
 [node name="LowerHand" type="RigidBody2D" parent="Player/UpperHand"]
 position = Vector2(243, 0)
@@ -66,3 +68,4 @@ shape = SubResource("RectangleShape2D_jgu3q")
 position = Vector2(193, 0)
 node_a = NodePath("..")
 node_b = NodePath("../../../Gun")
+bias = 0.9
