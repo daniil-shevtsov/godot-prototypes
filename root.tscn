@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://cw8wqctcrnbgn"]
+
+[ext_resource type="Script" path="res://Game.cs" id="1_5cat5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kfkac"]
+radius = 100.92
+height = 297.54
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5ih"]
+size = Vector2(166, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lyrka"]
+size = Vector2(250, 50)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_5cat5")
+
+[node name="Player" type="RigidBody2D" parent="."]
+position = Vector2(412, 288)
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CapsuleShape2D_kfkac")
+
+[node name="Gun" type="RigidBody2D" parent="Player"]
+position = Vector2(287, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Gun"]
+position = Vector2(43, 0)
+shape = SubResource("RectangleShape2D_1v5ih")
+
+[node name="Hand" type="RigidBody2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hand"]
+position = Vector2(126, 1)
+shape = SubResource("RectangleShape2D_lyrka")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Player"]
+node_a = NodePath("..")
+node_b = NodePath("../Hand")
