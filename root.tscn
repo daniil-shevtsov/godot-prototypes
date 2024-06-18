@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cw8wqctcrnbgn"]
+[gd_scene load_steps=7 format=3 uid="uid://cw8wqctcrnbgn"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_5cat5"]
+[ext_resource type="PackedScene" uid="uid://6upm4wwltlg" path="res://bullet.tscn" id="2_vatie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5ih"]
 size = Vector2(166, 30)
@@ -69,3 +70,5 @@ position = Vector2(193, 0)
 node_a = NodePath("..")
 node_b = NodePath("../../../Gun")
 bias = 0.9
+
+[node name="RigidBody2D" parent="." instance=ExtResource("2_vatie")]
