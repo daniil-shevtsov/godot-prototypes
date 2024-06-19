@@ -80,15 +80,12 @@ public partial class Game : Node2D
             .ForEach(
                 (body) =>
                 {
-                    var fryingBullet = Bullets.Find((bullet) => bullet == body);
+                    var fryingBullet = (Popcorn)Bullets.Find((bullet) => bullet == body);
                     GD.Print($"Frying bullet {fryingBullet}");
                     if (fryingBullet != null)
                     {
-                        var scaleChange = new Vector2(0.1f, 0.1f) * fryingSpeed * (float)delta;
-                        var shape = fryingBullet.GetNode<CollisionShape2D>("CollisionShape2D");
-                        shape.Scale += scaleChange;
-                        fryingBullet.Mass += scaleChange.X;
-                        GD.Print($"New scale: {fryingBullet.Scale}");
+                        var scaleChange = 0.1f * fryingSpeed * (float)delta;
+                        fryingBullet.UpdateMultiplier(scaleChange);
                     }
                 }
             );
@@ -158,10 +155,11 @@ public partial class Game : Node2D
     private void SpawnBullet()
     {
         var bulletSpeed = 10f;
-        var bullet = (RigidBody2D)BulletScene.Instantiate();
+        var bullet = (Popcorn)BulletScene.Instantiate();
         bullet.GlobalPosition = Gun.GlobalPosition;
         bullet.RotationDegrees = 90f;
         bullet.LinearVelocity = new Vector2(bulletSpeed, 10f);
+        bullet.Setup(bullet.GetIndex(), 1f);
         AddChild(bullet);
         Bullets.Add(bullet);
 
