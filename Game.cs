@@ -3,78 +3,114 @@ using System;
 
 public partial class Game : Node2D
 {
+    private RigidBody2D Player;
+    private RigidBody2D UpperArm;
+    private RigidBody2D LowerArm;
+    private RigidBody2D Gun;
 
-	private RigidBody2D Player;
-	private RigidBody2D UpperArm;
-	private RigidBody2D LowerArm;
-	private RigidBody2D Gun;
+    private PackedScene BulletScene;
 
-	private PackedScene BulletScene;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        Player = (RigidBody2D)FindChild("Player");
+        UpperArm = (RigidBody2D)FindChild("UpperArm");
+        LowerArm = (RigidBody2D)FindChild("LowerArm");
+        Gun = (RigidBody2D)FindChild("Gun");
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Player = (RigidBody2D)FindChild("Player");
-		UpperArm = (RigidBody2D)FindChild("UpperArm");
-		LowerArm = (RigidBody2D)FindChild("LowerArm");
-		Gun = (RigidBody2D)FindChild("Gun");
+        BulletScene = GD.Load<PackedScene>("res://bullet.tscn");
+    }
 
-		BulletScene = GD.Load<PackedScene>("res://bullet.tscn");
-	}
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta) { }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Input.IsActionJustPressed("toggle_mouse"))
+        {
+            if (Input.MouseMode == Input.MouseModeEnum.Visible)
+            {
+                Input.MouseMode = Input.MouseModeEnum.Captured;
+            }
+            else
+            {
+                Input.MouseMode = Input.MouseModeEnum.Visible;
+            }
+        }
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (Input.IsMouseButtonPressed(MouseButton.Left))
-		{
-			SpawnBullet();
-		}
-	}
+        if (Input.IsMouseButtonPressed(MouseButton.Left))
+        {
+            SpawnBullet();
+        }
+    }
 
-	public override void _Input(InputEvent @event)
-	{
-		var sensitivity = 100;
-		var speed = 50;
-		var force = 3;
-		if (@event is InputEventMouseMotion eventMouseMotion)
-		{
-			//Gun.LookAt(GetGlobalMousePosition());
-			// Gun.ApplyCentralImpulse(eventMouseMotion.Relative * force);
-			// Gun.MoveAndCollide(eventMouseMotion.Relative);
-			var armLength = 450f - 30f;
-			var newDistance = Player.GlobalPosition.DistanceTo(Gun.GlobalPosition + eventMouseMotion.Relative);
-			if (newDistance <= armLength)
-			{
-				var collision = Gun.MoveAndCollide(eventMouseMotion.Relative);
-				if (collision != null)
-				{
-					var remainder = collision.GetRemainder();
-					var collider = (RigidBody2D)collision.GetCollider();
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseMotion eventMouseMotion)
+        {
+            MoveGun(eventMouseMotion);
+        }
+    }
 
-					var normal = collision.GetNormal();
-					var impulse = remainder * normal.Normalized() * force;
-					GD.Print($"$Parsed collider {collider} {remainder} {normal} {impulse}");
-					collider.ApplyCentralImpulse(impulse);
-				}
+    private void MoveGun(InputEventMouseMotion eventMouseMotion)
+    {
+        var armLength = 450f - 30f;
+        var newDistance = Player.GlobalPosition.DistanceTo(
+            Gun.GlobalPosition + eventMouseMotion.Relative
+        );
+        if (newDistance <= armLength)
+        {
+            var collision = Gun.MoveAndCollide(eventMouseMotion.Relative);
+            if (collision != null)
+            {
+                HandleCollision(collision);
+            }
+            else
+            {
+                Gun.GlobalPosition += eventMouseMotion.Relative;
+            }
+        }
+    }
 
-			}
-		}
-	}
+    private void HandleCollision(KinematicCollision2D collision)
+    {
+        var remainder = collision.GetRemainder();
+        var collider = collision.GetCollider() as RigidBody2D;
+        var mass = collider.Mass;
+        Vector2 normal = collision.GetNormal();
+        float forceFactor = 50.0f;
 
-	private void SpawnBullet()
-	{
+        Vector2 impulse = remainder.Length() * normal.Normalized() * forceFactor * mass;
 
-		var bulletSpeed = 10f;
-		var bullet = (RigidBody2D)BulletScene.Instantiate();
-		bullet.GlobalPosition = Gun.GlobalPosition;// + new Vector2(300f, 0f);
-		bullet.RotationDegrees = 90f;
-		bullet.LinearVelocity = new Vector2(bulletSpeed, 10f);
-		AddChild(bullet);
+        if (normal.Y > 0)
+        {
+            impulse = new Vector2(0, -impulse.Length());
+        }
+        else
+        {
+            impulse = new Vector2(0, impulse.Length());
+        }
 
-		GD.Print($"Spawn bullet at {bullet.GlobalPosition}");
-	}
+        GD.Print(
+            $"Parsed collider {collider} remainder {remainder} normal {normal} impulse {impulse}"
+        );
+
+        // Apply the impulse
+        collider.ApplyCentralImpulse(impulse);
+
+        // Continue moving the gun
+        Gun.GlobalPosition += remainder;
+    }
+
+    private void SpawnBullet()
+    {
+        var bulletSpeed = 10f;
+        var bullet = (RigidBody2D)BulletScene.Instantiate();
+        bullet.GlobalPosition = Gun.GlobalPosition; // + new Vector2(300f, 0f);
+        bullet.RotationDegrees = 90f;
+        bullet.LinearVelocity = new Vector2(bulletSpeed, 10f);
+        AddChild(bullet);
+
+        GD.Print($"Spawn bullet at {bullet.GlobalPosition}");
+    }
 }
