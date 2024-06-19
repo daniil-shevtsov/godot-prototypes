@@ -7,11 +7,14 @@ public partial class Popcorn : RigidBody2D
     public long id;
     public float multiplier;
     public CollisionShape2D collisionShape2D;
+    public PopcornSprite sprite;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
+        sprite = GetNode<PopcornSprite>("Sprite");
+        sprite.SetShape(collisionShape2D);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,5 +31,10 @@ public partial class Popcorn : RigidBody2D
         multiplier += multiplierChange;
         collisionShape2D.Scale += new Vector2(multiplierChange, multiplierChange);
         Mass += multiplierChange;
+
+        var colorValue = 2f - multiplier;
+        sprite.color = new Color(colorValue, colorValue, colorValue);
+        sprite.QueueRedraw();
+        GD.Print($"New color {sprite.color}");
     }
 }
