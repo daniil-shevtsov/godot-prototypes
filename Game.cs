@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class Game : Node2D
 {
@@ -25,7 +26,7 @@ public partial class Game : Node2D
 
         BulletScene = GD.Load<PackedScene>("res://bullet.tscn");
 
-        FryingArea.BodyEntered += OnFryingAreaEntered;
+        // FryingArea.BodyEntered += OnFryingAreaEntered;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -72,21 +73,40 @@ public partial class Game : Node2D
             GD.Print($"gunDegreesIncrement: {gunDegreesIncrement}");
         }
         Gun.RotationDegrees = Gun.RotationDegrees + gunDegreesIncrement * rotationSensitivity;
+        var fryingSpeed = 10f;
+        FryingArea
+            .GetOverlappingBodies()
+            .ToList()
+            .ForEach(
+                (body) =>
+                {
+                    var fryingBullet = Bullets.Find((bullet) => bullet == body);
+                    GD.Print($"Frying bullet {fryingBullet}");
+                    if (fryingBullet != null)
+                    {
+                        var scaleChange = new Vector2(0.1f, 0.1f) * fryingSpeed * (float)delta;
+                        var shape = fryingBullet.GetNode<CollisionShape2D>("CollisionShape2D");
+                        shape.Scale += scaleChange;
+                        fryingBullet.Mass += scaleChange.X;
+                        GD.Print($"New scale: {fryingBullet.Scale}");
+                    }
+                }
+            );
     }
 
-    private void OnFryingAreaEntered(Node2D body)
-    {
-        var fryingBullet = Bullets.Find((bullet) => bullet == body);
-        GD.Print($"Frying bullet {fryingBullet}");
-        if (fryingBullet != null)
-        {
-            var scaleChange = new Vector2(1.1f, 1.1f);
-            var shape = fryingBullet.GetNode<CollisionShape2D>("CollisionShape2D");
-            shape.Scale += scaleChange;
-            fryingBullet.Mass += scaleChange.X;
-            GD.Print($"New scale: {fryingBullet.Scale}");
-        }
-    }
+    // private void OnFryingAreaEntered(Node2D body)
+    // {
+    //     var fryingBullet = Bullets.Find((bullet) => bullet == body);
+    //     GD.Print($"Frying bullet {fryingBullet}");
+    //     if (fryingBullet != null)
+    //     {
+    //         var scaleChange = new Vector2(1.1f, 1.1f);
+    //         var shape = fryingBullet.GetNode<CollisionShape2D>("CollisionShape2D");
+    //         shape.Scale += scaleChange;
+    //         fryingBullet.Mass += scaleChange.X;
+    //         GD.Print($"New scale: {fryingBullet.Scale}");
+    //     }
+    // }
 
     public override void _Input(InputEvent @event)
     {
