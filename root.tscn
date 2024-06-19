@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://cw8wqctcrnbgn"]
+[gd_scene load_steps=8 format=3 uid="uid://cw8wqctcrnbgn"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_5cat5"]
 [ext_resource type="PackedScene" uid="uid://6upm4wwltlg" path="res://bullet.tscn" id="2_vatie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5ih"]
 size = Vector2(166, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y3xkq"]
+size = Vector2(176, 30)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kfkac"]
 radius = 100.92
@@ -31,6 +34,13 @@ freeze = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Gun"]
 position = Vector2(83.849, 0)
 shape = SubResource("RectangleShape2D_1v5ih")
+
+[node name="FryingArea" type="Area2D" parent="Player/Gun"]
+position = Vector2(84.471, -14.182)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Gun/FryingArea"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_y3xkq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_kfkac")

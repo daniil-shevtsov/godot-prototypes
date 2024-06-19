@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Game : Node2D
 {
@@ -8,7 +9,10 @@ public partial class Game : Node2D
     private RigidBody2D LowerArm;
     private RigidBody2D Gun;
 
+    private Area2D FryingArea;
+
     private PackedScene BulletScene;
+    private List<RigidBody2D> Bullets = new();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -17,8 +21,11 @@ public partial class Game : Node2D
         UpperArm = (RigidBody2D)FindChild("UpperArm");
         LowerArm = (RigidBody2D)FindChild("LowerArm");
         Gun = (RigidBody2D)FindChild("Gun");
+        FryingArea = (Area2D)FindChild("FryingArea");
 
         BulletScene = GD.Load<PackedScene>("res://bullet.tscn");
+
+        FryingArea.BodyEntered += OnFryingAreaEntered;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,6 +72,20 @@ public partial class Game : Node2D
             GD.Print($"gunDegreesIncrement: {gunDegreesIncrement}");
         }
         Gun.RotationDegrees = Gun.RotationDegrees + gunDegreesIncrement * rotationSensitivity;
+    }
+
+    private void OnFryingAreaEntered(Node2D body)
+    {
+        var fryingBullet = Bullets.Find((bullet) => bullet == body);
+        GD.Print($"Frying bullet {fryingBullet}");
+        if (fryingBullet != null)
+        {
+            var scaleChange = new Vector2(1.1f, 1.1f);
+            var shape = fryingBullet.GetNode<CollisionShape2D>("CollisionShape2D");
+            shape.Scale += scaleChange;
+            fryingBullet.Mass += scaleChange.X;
+            GD.Print($"New scale: {fryingBullet.Scale}");
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -122,6 +143,7 @@ public partial class Game : Node2D
         bullet.RotationDegrees = 90f;
         bullet.LinearVelocity = new Vector2(bulletSpeed, 10f);
         AddChild(bullet);
+        Bullets.Add(bullet);
 
         GD.Print($"Spawn bullet at {bullet.GlobalPosition}");
     }
