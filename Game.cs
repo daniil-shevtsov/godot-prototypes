@@ -26,6 +26,11 @@ public partial class Game : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (Input.IsActionJustPressed("quit"))
+        {
+            GetTree().Quit();
+        }
+
         if (Input.IsActionJustPressed("toggle_mouse"))
         {
             if (Input.MouseMode == Input.MouseModeEnum.Visible)
