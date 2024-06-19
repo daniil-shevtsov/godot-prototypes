@@ -39,7 +39,7 @@ public partial class Game : Node2D
 	{
 		var sensitivity = 100;
 		var speed = 50;
-		var force = 5;
+		var force = 3;
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
 			//Gun.LookAt(GetGlobalMousePosition());
@@ -49,7 +49,18 @@ public partial class Game : Node2D
 			var newDistance = Player.GlobalPosition.DistanceTo(Gun.GlobalPosition + eventMouseMotion.Relative);
 			if (newDistance <= armLength)
 			{
-				Gun.MoveAndCollide(eventMouseMotion.Relative);
+				var collision = Gun.MoveAndCollide(eventMouseMotion.Relative);
+				if (collision != null)
+				{
+					var remainder = collision.GetRemainder();
+					var collider = (RigidBody2D)collision.GetCollider();
+
+					var normal = collision.GetNormal();
+					var impulse = remainder * normal.Normalized() * force;
+					GD.Print($"$Parsed collider {collider} {remainder} {normal} {impulse}");
+					collider.ApplyCentralImpulse(impulse);
+				}
+
 			}
 		}
 	}

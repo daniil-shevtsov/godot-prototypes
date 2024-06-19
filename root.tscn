@@ -25,7 +25,6 @@ freeze = true
 
 [node name="Gun" type="RigidBody2D" parent="Player"]
 position = Vector2(258.529, -288.818)
-scale = Vector2(1, 1)
 gravity_scale = 0.0
 lock_rotation = true
 freeze = true
