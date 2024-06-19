@@ -1,7 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cw8wqctcrnbgn"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_5cat5"]
-[ext_resource type="PackedScene" uid="uid://6upm4wwltlg" path="res://bullet.tscn" id="2_vatie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5ih"]
 size = Vector2(166, 30)
@@ -18,6 +17,9 @@ size = Vector2(250, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jgu3q"]
 size = Vector2(200, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gccx"]
+size = Vector2(300, 300)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_5cat5")
@@ -79,4 +81,19 @@ node_a = NodePath("..")
 node_b = NodePath("../../../Gun")
 bias = 0.9
 
-[node name="RigidBody2D" parent="." instance=ExtResource("2_vatie")]
+[node name="CookingArea" type="Area2D" parent="."]
+position = Vector2(990, 482)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CookingArea"]
+shape = SubResource("RectangleShape2D_4gccx")
+
+[node name="ColorRect" type="ColorRect" parent="CookingArea"]
+offset_left = -150.0
+offset_top = -150.0
+offset_right = -110.0
+offset_bottom = -110.0
+scale = Vector2(7.52, 7.56)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

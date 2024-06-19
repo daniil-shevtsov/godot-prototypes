@@ -11,9 +11,14 @@ public partial class Game : Node2D
     private RigidBody2D Gun;
 
     private Area2D FryingArea;
+    private Area2D CookingArea;
 
     private PackedScene BulletScene;
     private List<RigidBody2D> Bullets = new();
+
+    private Label label;
+
+    private float currentScore = 0f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -23,10 +28,12 @@ public partial class Game : Node2D
         LowerArm = (RigidBody2D)FindChild("LowerArm");
         Gun = (RigidBody2D)FindChild("Gun");
         FryingArea = (Area2D)FindChild("FryingArea");
+        CookingArea = (Area2D)FindChild("CookingArea");
+        label = GetNode<Label>("Label");
 
         BulletScene = GD.Load<PackedScene>("res://bullet.tscn");
 
-        // FryingArea.BodyEntered += OnFryingAreaEntered;
+        CookingArea.BodyEntered += OnCookingAreaEntered;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -110,28 +117,23 @@ public partial class Game : Node2D
                                     }
                                 }
                             );
-                            //fryingBullet.Free();
-                            Bullets.Remove(fryingBullet);
-                            RemoveChild(fryingBullet);
+                            RemoveBullet(fryingBullet);
                         }
                     }
                 }
             );
     }
 
-    // private void OnFryingAreaEntered(Node2D body)
-    // {
-    //     var fryingBullet = Bullets.Find((bullet) => bullet == body);
-    //     GD.Print($"Frying bullet {fryingBullet}");
-    //     if (fryingBullet != null)
-    //     {
-    //         var scaleChange = new Vector2(1.1f, 1.1f);
-    //         var shape = fryingBullet.GetNode<CollisionShape2D>("CollisionShape2D");
-    //         shape.Scale += scaleChange;
-    //         fryingBullet.Mass += scaleChange.X;
-    //         GD.Print($"New scale: {fryingBullet.Scale}");
-    //     }
-    // }
+    private void OnCookingAreaEntered(Node2D body)
+    {
+        var fryingBullet = (Popcorn)Bullets.Find((bullet) => bullet == body);
+        if (fryingBullet != null)
+        {
+            var score = fryingBullet.multiplier;
+            IncreaseScore(score);
+            RemoveBullet(fryingBullet);
+        }
+    }
 
     public override void _Input(InputEvent @event)
     {
@@ -192,5 +194,26 @@ public partial class Game : Node2D
         Bullets.Add(bullet);
 
         GD.Print($"Spawn bullet at {bullet.GlobalPosition}");
+    }
+
+    private void RemoveBullet(Popcorn popcorn)
+    {
+        Bullets.Remove(popcorn);
+        RemoveChild(popcorn);
+    }
+
+    private void IncreaseScore(float score)
+    {
+        if (score >= 1.25f && score <= 2f)
+        {
+            currentScore += score;
+        }
+        else
+        {
+            currentScore -= 10f;
+        }
+
+        GD.Print($"Current Score: {currentScore}");
+        label.Text = $"Score: {currentScore}";
     }
 }
