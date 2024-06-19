@@ -98,25 +98,14 @@ public partial class Game : Node2D
         Vector2 normal = collision.GetNormal();
         float forceFactor = 50.0f;
 
-        Vector2 impulse = remainder.Length() * normal.Normalized() * forceFactor * mass;
-
-        if (normal.Y > 0)
-        {
-            impulse = new Vector2(0, -impulse.Length());
-        }
-        else
-        {
-            impulse = new Vector2(0, impulse.Length());
-        }
+        Vector2 impulse = remainder.Length() * -normal * forceFactor * mass;
 
         GD.Print(
             $"Parsed collider {collider} remainder {remainder} normal {normal} impulse {impulse}"
         );
 
-        // Apply the impulse
         collider.ApplyCentralImpulse(impulse);
 
-        // Continue moving the gun
         Gun.GlobalPosition += remainder;
     }
 
@@ -124,7 +113,7 @@ public partial class Game : Node2D
     {
         var bulletSpeed = 10f;
         var bullet = (RigidBody2D)BulletScene.Instantiate();
-        bullet.GlobalPosition = Gun.GlobalPosition; // + new Vector2(300f, 0f);
+        bullet.GlobalPosition = Gun.GlobalPosition;
         bullet.RotationDegrees = 90f;
         bullet.LinearVelocity = new Vector2(bulletSpeed, 10f);
         AddChild(bullet);
