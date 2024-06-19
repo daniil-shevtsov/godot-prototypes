@@ -74,6 +74,7 @@ public partial class Game : Node2D
         }
         Gun.RotationDegrees = Gun.RotationDegrees + gunDegreesIncrement * rotationSensitivity;
         var fryingSpeed = 10f;
+        var explosionStrength = 10000f;
         FryingArea
             .GetOverlappingBodies()
             .ToList()
@@ -81,11 +82,38 @@ public partial class Game : Node2D
                 (body) =>
                 {
                     var fryingBullet = (Popcorn)Bullets.Find((bullet) => bullet == body);
-                    GD.Print($"Frying bullet {fryingBullet}");
                     if (fryingBullet != null)
                     {
                         var scaleChange = 0.1f * fryingSpeed * (float)delta;
                         fryingBullet.UpdateMultiplier(scaleChange);
+
+                        if (fryingBullet.multiplier > 2f)
+                        {
+                            GD.Print("EXPLODE");
+                            var explosionPosition = fryingBullet.GlobalPosition;
+                            Bullets.ForEach(
+                                (bullet) =>
+                                {
+                                    if (bullet != fryingBullet)
+                                    {
+                                        var direction = (
+                                            bullet.GlobalPosition - explosionPosition
+                                        ).Normalized();
+                                        var distance =
+                                            (bullet.GlobalPosition - explosionPosition).Length()
+                                            + 0.001f;
+                                        var force = explosionStrength * direction / distance;
+                                        GD.Print(
+                                            $"Calculated force {force} direction {direction} distance {distance}"
+                                        );
+                                        bullet.ApplyCentralImpulse(force);
+                                    }
+                                }
+                            );
+                            //fryingBullet.Free();
+                            Bullets.Remove(fryingBullet);
+                            RemoveChild(fryingBullet);
+                        }
                     }
                 }
             );
