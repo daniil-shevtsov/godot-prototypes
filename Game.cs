@@ -42,6 +42,24 @@ public partial class Game : Node2D
         {
             SpawnBullet();
         }
+
+        var gunDegreesIncrement = 0f;
+        var kek = 1f;
+        var rotationSensitivity = 10f;
+        if (Input.IsActionJustPressed("rotate_clockwise"))
+        {
+            gunDegreesIncrement = kek;
+        }
+        else if (Input.IsActionJustPressed("rotate_counterclockwise"))
+        {
+            gunDegreesIncrement = -kek;
+        }
+        var degrees = Input.GetAxis("rotate_clockwise", "rotate_counterclockwise");
+        if (gunDegreesIncrement != 0)
+        {
+            GD.Print($"gunDegreesIncrement: {gunDegreesIncrement}");
+        }
+        Gun.RotationDegrees = Gun.RotationDegrees + gunDegreesIncrement * rotationSensitivity;
     }
 
     public override void _Input(InputEvent @event)
