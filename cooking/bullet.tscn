@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://6upm4wwltlg"]
 
-[ext_resource type="Script" path="res://Popcorn.cs" id="1_mxw26"]
-[ext_resource type="Script" path="res://PopcornSprite.cs" id="2_hxetn"]
+[ext_resource type="Script" path="res://cooking/Popcorn.cs" id="1_mxw26"]
+[ext_resource type="Script" path="res://cooking/PopcornSprite.cs" id="2_hxetn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ywyuj"]
 

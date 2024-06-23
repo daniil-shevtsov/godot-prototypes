@@ -31,7 +31,7 @@ public partial class Game : Node2D
         CookingArea = (Area2D)FindChild("CookingArea");
         label = GetNode<Label>("Label");
 
-        BulletScene = GD.Load<PackedScene>("res://bullet.tscn");
+        BulletScene = GD.Load<PackedScene>("res://cooking/bullet.tscn");
 
         CookingArea.BodyEntered += OnCookingAreaEntered;
     }
