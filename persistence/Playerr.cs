@@ -72,10 +72,8 @@ public partial class Playerr : CharacterBody3D
 		{
 			rotation.Y -= mouseMotion.Relative.X * mouseSensitivity;
 			rotation.X -= mouseMotion.Relative.Y * mouseSensitivity;
-			GD.Print($"Before clamp: {rotation}");
 			rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 2, Mathf.Pi / 2);
 
-			GD.Print($"After clamp: {rotation}");
 			RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
 			camera.RotationDegrees = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
 		}

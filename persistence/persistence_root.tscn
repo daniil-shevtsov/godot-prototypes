@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://qdcn1b15bec3"]
+[gd_scene load_steps=9 format=3 uid="uid://qdcn1b15bec3"]
 
 [ext_resource type="Script" path="res://persistence/Persistence.cs" id="1_4ce5v"]
 [ext_resource type="Script" path="res://persistence/Playerr.cs" id="1_7nquh"]
+[ext_resource type="PackedScene" uid="uid://dpilqdcux5y3a" path="res://persistence/can.tscn" id="3_k5byi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lmaex"]
 size = Vector3(18, 1, 18)
@@ -38,6 +39,17 @@ shape = SubResource("CapsuleShape3D_6h72m")
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.373093, -0.551102)
 
+[node name="Hand" type="PinJoint3D" parent="Player/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0215659, -0.966394)
+node_a = NodePath("../..")
+
+[node name="CanSpawn" type="Marker3D" parent="Player/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.135315, -1.23585)
+
+[node name="CameraRay" type="RayCast3D" parent="Player/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0420341)
+target_position = Vector3(0, 0, -4)
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_41gl8")
 camera_attributes = SubResource("CameraAttributesPractical_tnjsg")
@@ -45,3 +57,5 @@ camera_attributes = SubResource("CameraAttributesPractical_tnjsg")
 [node name="OmniLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.728204, 0.685361, 0, -0.685361, 0.728204, 0, 4.51721, 0)
 shadow_enabled = true
+
+[node name="Can" parent="." instance=ExtResource("3_k5byi")]
