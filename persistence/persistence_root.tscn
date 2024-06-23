@@ -1,74 +1,47 @@
-[gd_scene load_steps=9 format=3 uid="uid://cia47cd0jvuqn"]
+[gd_scene load_steps=8 format=3 uid="uid://qdcn1b15bec3"]
 
-[ext_resource type="Script" path="res://persistence/player.cs" id="1_q6o8e"]
+[ext_resource type="Script" path="res://persistence/Persistence.cs" id="1_4ce5v"]
+[ext_resource type="Script" path="res://persistence/Playerr.cs" id="1_7nquh"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_nyth7"]
-size = Vector3(10.3695, 1, 8.36707)
+[sub_resource type="BoxShape3D" id="BoxShape3D_lmaex"]
+size = Vector3(18, 1, 18)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_46ewt"]
-radius = 1.25038
+[sub_resource type="BoxMesh" id="BoxMesh_57rpo"]
+size = Vector3(18, 1, 18)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7r0cm"]
-radius = 0.25
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6h72m"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_gwct5"]
-radius = 0.05
+[sub_resource type="Environment" id="Environment_41gl8"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_27mqy"]
-radius = 0.25
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_tnjsg"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6isan"]
-height = 15.0
-radius = 0.15
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sbuxh"]
-
-[node name="Node3D" type="Node3D"]
+[node name="PersistenceRoot" type="Node3D"]
+script = ExtResource("1_4ce5v")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(0.951787, 0.306759, 0, -0.306759, 0.951787, 0, 0, 0, 1, -0.776672, 1.36087, 0.160583)
-shape = SubResource("BoxShape3D_nyth7")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.559662, 0, -0.72522)
+shape = SubResource("BoxShape3D_lmaex")
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96898, 6.9541, -2.52463)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_57rpo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("SphereShape3D_46ewt")
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.38276, 0)
+script = ExtResource("1_7nquh")
+mouseSensitivity = 0.01
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.476699, 0, 0.879067, 0, 1, 0, -0.879067, 0, -0.476699, 5.9657, 5.40363, 0.221238)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_6h72m")
 
-[node name="Hook" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.6148, 0)
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.373093, -0.551102)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hook"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.847632, 0, 0)
-shape = SubResource("CylinderShape3D_7r0cm")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_41gl8")
+camera_attributes = SubResource("CameraAttributesPractical_tnjsg")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Hook"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.955, 0)
-shape = SubResource("CylinderShape3D_gwct5")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Hook"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.874621, 0, 0)
-shape = SubResource("CylinderShape3D_27mqy")
-
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965049, -0.262071, 0, 0.262071, 0.965049, 0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 0.543892, 0.839155, 0, -0.839155, 0.543892, 0.500929, 5.08062, 0)
-shape = SubResource("CylinderShape3D_6isan")
-
-[node name="CharacterBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.32641, -0.653996)
-script = ExtResource("1_q6o8e")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_sbuxh")
-
-[node name="JoltPinJoint3D" type="JoltPinJoint3D" parent="CharacterBody3D"]
-node_a = NodePath("..")
-node_b = NodePath("../../Hook")
+[node name="OmniLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.728204, 0.685361, 0, -0.685361, 0.728204, 0, 4.51721, 0)
+shadow_enabled = true
