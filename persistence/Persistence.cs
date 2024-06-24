@@ -39,7 +39,17 @@ public partial class Persistence : Node3D
 		if (loadedLevel != null)
 		{
 			RemoveChild(loadedLevel);
+			GD.Print($"level1 {levelScene1.ResourcePath} level2 {levelScene2.ResourcePath} loaded level {loadedLevel.SceneFilePath} {loadedLevel.GetPath()}");
+			if (loadedLevel.SceneFilePath == levelScene1.ResourcePath)
+			{
+				GD.Print($"Load 1 -> 2");
+			}
+			else if (loadedLevel.SceneFilePath == levelScene2.ResourcePath)
+			{
+				GD.Print($"Load 2 -> 1");
+			}
 		}
+
 		loadedLevel = (Node3D)sceneToLoad.Instantiate();
 		AddChild(loadedLevel);
 		player = (Playerr)playerScene.Instantiate();
@@ -127,9 +137,16 @@ public partial class Persistence : Node3D
 	{
 		if (body == player)
 		{
-			GD.Print("LOAD LEVEL 2");
 			SavePersistentData();
-			LoadLevel(levelScene2);
+			if (loadedLevel.SceneFilePath == levelScene1.ResourcePath)
+			{
+				LoadLevel(levelScene2);
+			}
+			else if (loadedLevel.SceneFilePath == levelScene2.ResourcePath)
+			{
+				LoadLevel(levelScene1);
+			}
+
 		}
 	}
 
@@ -148,18 +165,18 @@ public partial class Persistence : Node3D
 					rotation = node3D.Rotation,
 					linearVelocity = node3D.LinearVelocity,
 					angularVelocity = node3D.AngularVelocity,
-					path = node3D.GetPath()
+					path = node3D.SceneFilePath
 				};
 				dataToPersist.Add(data);
 			}
 		}
-		levelData[loadedLevel.GetPath()] = dataToPersist;
+		levelData[loadedLevel.SceneFilePath] = dataToPersist;
 	}
 
 	private void LoadPersistentData()
 	{
 		var sceneTree = loadedLevel.GetTree();
-		var path = loadedLevel.GetPath();
+		var path = loadedLevel.SceneFilePath;
 		var persistedLevel = levelData[path];
 		if (persistedLevel != null)
 		{
