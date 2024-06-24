@@ -39,3 +39,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.31109, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.31109, 1.84489)
 
 [node name="Door" parent="." instance=ExtResource("3_adb36")]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.58006, 4.16445, -1)
+text = "Level 2"
+font_size = 128
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00659084, 5.90859, -6.49597)
+text = "Go to level 1"
+font_size = 128

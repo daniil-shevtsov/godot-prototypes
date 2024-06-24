@@ -36,3 +36,13 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.31109, 0)
 
 [node name="Door" parent="." instance=ExtResource("3_rn6xd")]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.58006, 4.16445, -1)
+text = "Level 1"
+font_size = 128
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00659084, 5.90859, -5.99494)
+text = "Go to level 2"
+font_size = 128
