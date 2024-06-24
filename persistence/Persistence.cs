@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public partial class Persistence : Node3D
 {
 	private Playerr player;
+	private Door door;
 	private Marker3D canSpawn;
 	private PinJoint3D hand;
 	private RayCast3D cameraRay;
@@ -41,6 +42,8 @@ public partial class Persistence : Node3D
 		canSpawn = (Marker3D)player.FindChild("CanSpawn");
 		hand = (PinJoint3D)player.FindChild("Hand");
 		cameraRay = (RayCast3D)player.FindChild("CameraRay");
+		door = (Door)loadedLevel.FindChild("Door");
+		door.GetNode<Area3D>("Area3D").BodyEntered += HandleDoorEntered;
 
 		GD.Print($"Loaded level: {loadedLevel} player {player} and hand {hand}");
 	}
@@ -66,9 +69,9 @@ public partial class Persistence : Node3D
 	private void SpawnCan()
 	{
 		var newCan = (RigidBody3D)canScene.Instantiate().Duplicate();
-
-		newCan.GlobalPosition = canSpawn.GlobalPosition;
 		loadedLevel.AddChild(newCan);
+		newCan.GlobalPosition = canSpawn.GlobalPosition;
+
 		cans.Add(newCan);
 	}
 
@@ -107,6 +110,15 @@ public partial class Persistence : Node3D
 				rigidBody.LockRotation = false;
 				hand.NodeB = null;
 			}
+		}
+	}
+
+	private void HandleDoorEntered(Node3D body)
+	{
+		if (body == player)
+		{
+			GD.Print("LOAD LEVEL 2");
+			LoadLevel(levelScene2);
 		}
 	}
 }
