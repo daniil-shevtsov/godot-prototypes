@@ -11,6 +11,7 @@ public partial class Persistence : Node3D
 	private PackedScene canScene;
 	private PackedScene playerScene;
 	private PackedScene levelScene1;
+	private PackedScene levelScene2;
 
 	private Node3D loadedLevel;
 
@@ -23,15 +24,25 @@ public partial class Persistence : Node3D
 		canScene = GD.Load<PackedScene>("res://persistence/can.tscn");
 		playerScene = GD.Load<PackedScene>("res://persistence/player.tscn");
 		levelScene1 = GD.Load<PackedScene>("res://persistence/level1.tscn");
+		levelScene2 = GD.Load<PackedScene>("res://persistence/level2.tscn");
 
-		loadedLevel = (Node3D)levelScene1.Instantiate();
+
+		LoadLevel(levelScene1);
+	}
+
+	private void LoadLevel(PackedScene sceneToLoad)
+	{
+		loadedLevel = (Node3D)sceneToLoad.Instantiate();
 		AddChild(loadedLevel);
 		player = (Playerr)playerScene.Instantiate();
+		player.GlobalPosition = loadedLevel.GlobalPosition + new Vector3(0, 2f, 0f);
 		loadedLevel.AddChild(player);
 
 		canSpawn = (Marker3D)player.FindChild("CanSpawn");
 		hand = (PinJoint3D)player.FindChild("Hand");
 		cameraRay = (RayCast3D)player.FindChild("CameraRay");
+
+		GD.Print($"Loaded level: {loadedLevel} player {player} and hand {hand}");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,8 +74,9 @@ public partial class Persistence : Node3D
 
 	private void HandleUse()
 	{
-		GD.Print("Use");
+
 		var collided = cameraRay.GetCollider();
+		GD.Print($"Use {collided} by {cameraRay}");
 		if (collided != null && collided is RigidBody3D)
 		{
 			var rigidBody = (RigidBody3D)collided;
@@ -87,8 +99,9 @@ public partial class Persistence : Node3D
 		}
 		else
 		{
-			if (hand.NodeB != null)
+			if (!hand.NodeB.IsEmpty)
 			{
+				GD.Print($"path {hand.NodeB.IsEmpty}");
 				var rigidBody = hand.GetNode<RigidBody3D>(hand.NodeB);
 				GD.Print($"Drop {rigidBody} by {hand.NodeB}");
 				rigidBody.LockRotation = false;
