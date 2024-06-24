@@ -85,7 +85,7 @@ public partial class Persistence : Node3D
 		}
 	}
 
-	private void SpawnCan()
+	private RigidBody3D SpawnCan()
 	{
 		var newCan = (RigidBody3D)canScene.Instantiate().Duplicate();
 		loadedLevel.AddChild(newCan);
@@ -93,6 +93,7 @@ public partial class Persistence : Node3D
 
 		cans.Add(newCan);
 		newCan.AddToGroup("my_persist", persistent: true);
+		return newCan;
 	}
 
 	private void HandleUse()
@@ -171,6 +172,7 @@ public partial class Persistence : Node3D
 			}
 		}
 		levelData[loadedLevel.SceneFilePath] = dataToPersist;
+		GD.Print($"Persisted {dataToPersist.Count} nodes");
 	}
 
 	private void LoadPersistentData()
@@ -182,9 +184,19 @@ public partial class Persistence : Node3D
 		{
 			foreach (var data in persistedLevel)
 			{
-				//TODO: Example does not handle that cans don't exist initially
 				var destination = loadedLevel.GetNode(data.path);
-				if (destination != null && destination is RigidBody3D destinationBody)
+				RigidBody3D destinationBody = null;
+				if (destination != null && destination is RigidBody3D)
+				{
+					destinationBody = (RigidBody3D)destination;
+				}
+				else if (destination == null)
+				{
+					var newCan = SpawnCan();
+					destinationBody = newCan;
+				}
+
+				if (destinationBody != null)
 				{
 					destinationBody.GlobalPosition = data.position;
 					destinationBody.Rotation = data.rotation;
