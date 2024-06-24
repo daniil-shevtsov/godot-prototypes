@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsd2vthraxrx0"]
+
+[ext_resource type="Script" path="res://persistence/Playerr.cs" id="1_xly1r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6h72m"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.38276, 0)
+script = ExtResource("1_xly1r")
+mouseSensitivity = 0.01
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_6h72m")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.373093, -0.551102)
+
+[node name="Hand" type="PinJoint3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0215659, -1.40367)
+node_a = NodePath("../..")
+
+[node name="CanSpawn" type="Marker3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.135315, -1.23585)
+
+[node name="CameraRay" type="RayCast3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0420341)
+target_position = Vector3(0, 0, -4)

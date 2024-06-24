@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Persistence : Node3D
 {
@@ -8,6 +9,8 @@ public partial class Persistence : Node3D
 	private PinJoint3D hand;
 	private RayCast3D cameraRay;
 	private PackedScene canScene;
+
+	private List<RigidBody3D> cans = new();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -44,6 +47,7 @@ public partial class Persistence : Node3D
 
 		newCan.GlobalPosition = canSpawn.GlobalPosition;
 		AddChild(newCan);
+		cans.Add(newCan);
 	}
 
 	private void HandleUse()
@@ -59,6 +63,7 @@ public partial class Persistence : Node3D
 			{
 				rigidBody.GlobalPosition = canSpawn.GlobalPosition;
 				rigidBody.LockRotation = true;
+				rigidBody.RotationDegrees = new Vector3(0f, 0f, 0f);
 				hand.NodeB = pathToGrab;
 			}
 			else
