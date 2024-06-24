@@ -9,6 +9,10 @@ public partial class Persistence : Node3D
 	private PinJoint3D hand;
 	private RayCast3D cameraRay;
 	private PackedScene canScene;
+	private PackedScene playerScene;
+	private PackedScene levelScene1;
+
+	private Node3D loadedLevel;
 
 	private List<RigidBody3D> cans = new();
 
@@ -16,8 +20,15 @@ public partial class Persistence : Node3D
 	public override void _Ready()
 	{
 		GD.Print("Game ready");
-		player = GetNode<Playerr>("Player");
 		canScene = GD.Load<PackedScene>("res://persistence/can.tscn");
+		playerScene = GD.Load<PackedScene>("res://persistence/player.tscn");
+		levelScene1 = GD.Load<PackedScene>("res://persistence/level1.tscn");
+
+		loadedLevel = (Node3D)levelScene1.Instantiate();
+		AddChild(loadedLevel);
+		player = (Playerr)playerScene.Instantiate();
+		loadedLevel.AddChild(player);
+
 		canSpawn = (Marker3D)player.FindChild("CanSpawn");
 		hand = (PinJoint3D)player.FindChild("Hand");
 		cameraRay = (RayCast3D)player.FindChild("CameraRay");
@@ -46,7 +57,7 @@ public partial class Persistence : Node3D
 		var newCan = (RigidBody3D)canScene.Instantiate().Duplicate();
 
 		newCan.GlobalPosition = canSpawn.GlobalPosition;
-		AddChild(newCan);
+		loadedLevel.AddChild(newCan);
 		cans.Add(newCan);
 	}
 

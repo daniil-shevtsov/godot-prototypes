@@ -1,46 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://qdcn1b15bec3"]
+[gd_scene load_steps=2 format=3 uid="uid://qdcn1b15bec3"]
 
 [ext_resource type="Script" path="res://persistence/Persistence.cs" id="1_4ce5v"]
-[ext_resource type="PackedScene" uid="uid://bsd2vthraxrx0" path="res://persistence/player.tscn" id="2_d7acx"]
-[ext_resource type="PackedScene" uid="uid://dpilqdcux5y3a" path="res://persistence/can.tscn" id="3_k5byi"]
-[ext_resource type="PackedScene" uid="uid://cvi18fieonm80" path="res://persistence/door.tscn" id="4_2aihc"]
-[ext_resource type="Script" path="res://persistence/Door.cs" id="5_t2nuo"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_lmaex"]
-size = Vector3(18, 1, 18)
-
-[sub_resource type="BoxMesh" id="BoxMesh_57rpo"]
-size = Vector3(18, 1, 18)
-
-[sub_resource type="Environment" id="Environment_41gl8"]
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_tnjsg"]
 
 [node name="PersistenceRoot" type="Node3D"]
 script = ExtResource("1_4ce5v")
-
-[node name="Ground" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.559662, 0, -0.72522)
-shape = SubResource("BoxShape3D_lmaex")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("BoxMesh_57rpo")
-
-[node name="Player" parent="." instance=ExtResource("2_d7acx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38276, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_41gl8")
-camera_attributes = SubResource("CameraAttributesPractical_tnjsg")
-
-[node name="OmniLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.728204, 0.685361, 0, -0.685361, 0.728204, 0, 4.51721, 0)
-shadow_enabled = true
-
-[node name="Can" parent="." instance=ExtResource("3_k5byi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.31109, 0)
-
-[node name="Door" parent="." instance=ExtResource("4_2aihc")]
-script = ExtResource("5_t2nuo")

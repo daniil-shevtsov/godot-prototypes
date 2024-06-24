@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bd3fu37q8ufc4"]
+[gd_scene load_steps=9 format=3 uid="uid://qdg6ctx17cax"]
 
-[ext_resource type="Script" path="res://persistence/Persistence.cs" id="1_f12v3"]
-[ext_resource type="PackedScene" uid="uid://bsd2vthraxrx0" path="res://persistence/player.tscn" id="2_vr20y"]
-[ext_resource type="PackedScene" uid="uid://dpilqdcux5y3a" path="res://persistence/can.tscn" id="3_fgpie"]
-[ext_resource type="PackedScene" uid="uid://cvi18fieonm80" path="res://persistence/door.tscn" id="4_pml4x"]
-[ext_resource type="Script" path="res://persistence/Door.cs" id="5_y402t"]
+[ext_resource type="PackedScene" uid="uid://bsd2vthraxrx0" path="res://persistence/player.tscn" id="1_s1pt0"]
+[ext_resource type="PackedScene" uid="uid://dpilqdcux5y3a" path="res://persistence/can.tscn" id="2_bm4k8"]
+[ext_resource type="PackedScene" uid="uid://cvi18fieonm80" path="res://persistence/door.tscn" id="3_adb36"]
+[ext_resource type="Script" path="res://persistence/Door.cs" id="4_t5e47"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lmaex"]
 size = Vector3(18, 1, 18)
@@ -16,8 +15,7 @@ size = Vector3(18, 1, 18)
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_tnjsg"]
 
-[node name="PersistenceRoot2" type="Node3D"]
-script = ExtResource("1_f12v3")
+[node name="Level" type="Node3D"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
@@ -28,8 +26,8 @@ shape = SubResource("BoxShape3D_lmaex")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_57rpo")
 
-[node name="Player" parent="." instance=ExtResource("2_vr20y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38276, 6.86008)
+[node name="Player" parent="." instance=ExtResource("1_s1pt0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38276, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_41gl8")
@@ -39,11 +37,11 @@ camera_attributes = SubResource("CameraAttributesPractical_tnjsg")
 transform = Transform3D(1, 0, 0, 0, 0.728204, 0.685361, 0, -0.685361, 0.728204, 0, 4.51721, 0)
 shadow_enabled = true
 
-[node name="Can2" parent="." instance=ExtResource("3_fgpie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.30933, 1.90111, 1.83065)
-
-[node name="Can" parent="." instance=ExtResource("3_fgpie")]
+[node name="Can" parent="." instance=ExtResource("2_bm4k8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.31109, 0)
 
-[node name="Door" parent="." instance=ExtResource("4_pml4x")]
-script = ExtResource("5_y402t")
+[node name="Can2" parent="." instance=ExtResource("2_bm4k8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.31109, 1.84489)
+
+[node name="Door" parent="." instance=ExtResource("3_adb36")]
+script = ExtResource("4_t5e47")
