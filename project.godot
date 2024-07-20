@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Prototypes"
-run/main_scene="res://persistence/persistence_root.tscn"
+run/main_scene="res://cooking/root.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://cooking/icon.svg"
 
