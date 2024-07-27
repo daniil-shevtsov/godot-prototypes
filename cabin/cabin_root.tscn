@@ -5,14 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://dm23sphx8m2a1" path="res://cabin/assets/textures/table_256.jpg" id="3_amoxy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ea7mu"]
-size = Vector3(2, 0.5, 6)
+size = Vector3(6, 0.5, 8)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swawx"]
 albedo_texture = ExtResource("2_hw6ww")
 
 [sub_resource type="BoxMesh" id="BoxMesh_b88fj"]
 material = SubResource("StandardMaterial3D_swawx")
-size = Vector3(2, 1, 6)
+size = Vector3(6, 1, 8)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pp3t8"]
 albedo_texture = ExtResource("2_hw6ww")
@@ -47,7 +47,7 @@ mesh = SubResource("BoxMesh_b88fj")
 surface_material_override/0 = SubResource("StandardMaterial3D_pp3t8")
 
 [node name="Table" type="StaticBody3D" parent="Cabin"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.974133, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15799, 0.219519)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cabin/Table"]
 shape = SubResource("BoxShape3D_d3amd")
@@ -56,4 +56,4 @@ shape = SubResource("BoxShape3D_d3amd")
 mesh = SubResource("BoxMesh_2u1vc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.597333, 1.8216, 3.08731)
+transform = Transform3D(1, 0, 0, 0, 0.876727, 0.480989, 0, -0.480989, 0.876727, 0.032507, 2.17322, 2.73594)
