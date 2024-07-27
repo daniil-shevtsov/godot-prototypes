@@ -1,0 +1,56 @@
+[gd_scene load_steps=11 format=3 uid="uid://b48535sqgoyvb"]
+
+[ext_resource type="Script" path="res://cabin/Game.cs" id="1_y3jss"]
+[ext_resource type="Texture2D" uid="uid://botjda56tmgt7" path="res://cabin/assets/textures/parq_256.jpg" id="2_hw6ww"]
+[ext_resource type="Texture2D" uid="uid://dm23sphx8m2a1" path="res://cabin/assets/textures/table_256.jpg" id="3_amoxy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ea7mu"]
+size = Vector3(2, 0.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swawx"]
+albedo_texture = ExtResource("2_hw6ww")
+
+[sub_resource type="BoxMesh" id="BoxMesh_b88fj"]
+material = SubResource("StandardMaterial3D_swawx")
+size = Vector3(2, 1, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pp3t8"]
+albedo_texture = ExtResource("2_hw6ww")
+uv1_scale = Vector3(-7.15, -7.15, -7.15)
+uv1_offset = Vector3(0, -0.735, 0)
+texture_filter = 0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d3amd"]
+size = Vector3(2, 0.25, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5b3so"]
+albedo_texture = ExtResource("3_amoxy")
+uv1_scale = Vector3(1.88, 1.88, 1.88)
+uv1_offset = Vector3(-0.56, 0.12, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2u1vc"]
+material = SubResource("StandardMaterial3D_5b3so")
+size = Vector3(2, 0.25, 4)
+
+[node name="CabinRoot" type="Node3D"]
+script = ExtResource("1_y3jss")
+
+[node name="Cabin" type="Node3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Cabin"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cabin/Ground"]
+shape = SubResource("BoxShape3D_ea7mu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cabin/Ground"]
+mesh = SubResource("BoxMesh_b88fj")
+surface_material_override/0 = SubResource("StandardMaterial3D_pp3t8")
+
+[node name="Table" type="StaticBody3D" parent="Cabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.974133, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cabin/Table"]
+shape = SubResource("BoxShape3D_d3amd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cabin/Table"]
+mesh = SubResource("BoxMesh_2u1vc")
