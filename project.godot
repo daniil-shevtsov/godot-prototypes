@@ -19,6 +19,10 @@ config/icon="res://cooking/icon.svg"
 
 project/assembly_name="Prototypes"
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [input]
 
 toggle_mouse={

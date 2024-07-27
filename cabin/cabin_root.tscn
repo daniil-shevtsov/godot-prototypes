@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://b48535sqgoyvb"]
+[gd_scene load_steps=13 format=3 uid="uid://b48535sqgoyvb"]
 
 [ext_resource type="Script" path="res://cabin/CabinGame.cs" id="1_k0v8v"]
 [ext_resource type="Texture2D" uid="uid://botjda56tmgt7" path="res://cabin/assets/textures/parq_256.jpg" id="2_hw6ww"]
 [ext_resource type="Texture2D" uid="uid://dm23sphx8m2a1" path="res://cabin/assets/textures/table_256.jpg" id="3_amoxy"]
+[ext_resource type="PackedScene" uid="uid://cub6bki1q6aqh" path="res://cabin/assets/models/26-knife/knife.glb" id="4_7jbh0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ea7mu"]
 size = Vector3(6, 0.5, 8)
@@ -32,6 +33,9 @@ uv1_offset = Vector3(-0.56, 0.12, 0)
 material = SubResource("StandardMaterial3D_5b3so")
 size = Vector3(2, 0.25, 4)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8fg00"]
+size = Vector3(0.222864, 0.009021, 0.0395996)
+
 [node name="CabinRoot" type="Node3D"]
 script = ExtResource("1_k0v8v")
 
@@ -55,5 +59,16 @@ shape = SubResource("BoxShape3D_d3amd")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cabin/Table"]
 mesh = SubResource("BoxMesh_2u1vc")
 
+[node name="Knife" type="StaticBody3D" parent="Cabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34558, 0)
+
+[node name="knife" parent="Cabin/Knife" instance=ExtResource("4_7jbh0")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cabin/Knife"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00128784, 0.000250101, 0.000756837)
+shape = SubResource("BoxShape3D_8fg00")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.876727, 0.480989, 0, -0.480989, 0.876727, 0.032507, 2.17322, 2.73594)
+
+[editable path="Cabin/Knife/knife"]
