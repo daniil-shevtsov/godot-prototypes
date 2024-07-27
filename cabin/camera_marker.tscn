@@ -6,7 +6,7 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0234469, 2.06084, 2.96702)
 script = ExtResource("1_fsg55")
 
-[node name="CameraPosition" type="Marker3D" parent="."]
+[node name="CameraMarker" type="Marker3D" parent="."]
 
-[node name="LookAtPosition" type="Marker3D" parent="."]
+[node name="LookAtMarker" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00510609, -0.732461, -1.86308)

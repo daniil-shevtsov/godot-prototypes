@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cub6bki1q6aqh" path="res://cabin/assets/models/26-knife/knife.glb" id="4_7jbh0"]
 [ext_resource type="Texture2D" uid="uid://c5emcn3fsokmg" path="res://cabin/assets/models/26-knife/maps/knife_cabo_H1_BaseColor.tga" id="5_fsow0"]
 [ext_resource type="Texture2D" uid="uid://gk10cec3b8hd" path="res://cabin/assets/models/26-knife/maps/knife_lamina_H_BaseColor.tga" id="6_5vlg8"]
-[ext_resource type="PackedScene" uid="uid://j7mq84xorq0r" path="res://camera_marker.tscn" id="7_75bk6"]
+[ext_resource type="PackedScene" uid="uid://j7mq84xorq0r" path="res://cabin/camera_marker.tscn" id="7_75bk6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ea7mu"]
 size = Vector3(6, 0.5, 8)
@@ -172,6 +172,11 @@ camera_attributes = SubResource("CameraAttributesPractical_lx3lc")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.643001, 0.765865, 0, -0.765865, 0.643001, 0, 4.57192, 3.38068)
 
-[node name="InitialCameraMarker" parent="." instance=ExtResource("7_75bk6")]
+[node name="InitialMarker" parent="." instance=ExtResource("7_75bk6")]
+cameraPosition = Vector3(0.023, 2.061, 2.967)
+lookAtPosition = Vector3(0.005, -0.732, -1.863)
+
+[node name="KnifeMarker" parent="." instance=ExtResource("7_75bk6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0234469, 2.06084, 1.04492)
 
 [editable path="Cabin/Knife/knife"]
