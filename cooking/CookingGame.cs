@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class Game : Node2D
+public partial class CookingGame : Node2D
 {
     private RigidBody2D Player;
     private RigidBody2D UpperArm;
