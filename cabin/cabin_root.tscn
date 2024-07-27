@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b48535sqgoyvb"]
+[gd_scene load_steps=24 format=3 uid="uid://b48535sqgoyvb"]
 
 [ext_resource type="Script" path="res://cabin/CabinGame.cs" id="1_k0v8v"]
 [ext_resource type="Texture2D" uid="uid://botjda56tmgt7" path="res://cabin/assets/textures/parq_256.jpg" id="2_hw6ww"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cub6bki1q6aqh" path="res://cabin/assets/models/26-knife/knife.glb" id="4_7jbh0"]
 [ext_resource type="Texture2D" uid="uid://c5emcn3fsokmg" path="res://cabin/assets/models/26-knife/maps/knife_cabo_H1_BaseColor.tga" id="5_fsow0"]
 [ext_resource type="Texture2D" uid="uid://gk10cec3b8hd" path="res://cabin/assets/models/26-knife/maps/knife_lamina_H_BaseColor.tga" id="6_5vlg8"]
+[ext_resource type="PackedScene" uid="uid://j7mq84xorq0r" path="res://camera_marker.tscn" id="7_75bk6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ea7mu"]
 size = Vector3(6, 0.5, 8)
@@ -147,7 +148,7 @@ shape = SubResource("BoxShape3D_d3amd")
 mesh = SubResource("BoxMesh_2u1vc")
 
 [node name="Knife" type="StaticBody3D" parent="Cabin"]
-transform = Transform3D(2.78585, -0.961826, -0.560313, 0.982334, 2.83455, 0.0183576, 0.523526, -0.200519, 2.94715, 0, 1.88501, 1.90145)
+transform = Transform3D(0.49012, -0.10015, 2.958, 2.50305, -1.58597, -0.468436, 1.5794, 2.54454, -0.175545, 0.56158, 1.48524, 1.27353)
 
 [node name="knife" parent="Cabin/Knife" instance=ExtResource("4_7jbh0")]
 
@@ -170,5 +171,7 @@ camera_attributes = SubResource("CameraAttributesPractical_lx3lc")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.643001, 0.765865, 0, -0.765865, 0.643001, 0, 4.57192, 3.38068)
+
+[node name="InitialCameraMarker" parent="." instance=ExtResource("7_75bk6")]
 
 [editable path="Cabin/Knife/knife"]
