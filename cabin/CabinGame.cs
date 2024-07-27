@@ -37,8 +37,8 @@ public partial class CabinGame : Node3D
 
 		if (currentCameraMarker != null)
 		{
-			camera3D.GlobalPosition = currentCameraMarker.cameraPosition;
-			camera3D.LookAt(currentCameraMarker.lookAtPosition);
+			camera3D.GlobalPosition = currentCameraMarker.cameraMarker.GlobalPosition;
+			camera3D.LookAt(currentCameraMarker.lookAtMarker.GlobalPosition);
 		}
 	}
 

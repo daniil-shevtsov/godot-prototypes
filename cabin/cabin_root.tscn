@@ -181,4 +181,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5475, 2.06084, 1.04492)
 cameraPosition = Vector3(1.547, 2.061, 1.045)
 lookAtPosition = Vector3(0.562, 1.485, 1.274)
 
+[node name="LookAtMarker" parent="KnifeMarker" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.972151, -0.496366, 0.25308)
+
 [editable path="Cabin/Knife/knife"]
+[editable path="InitialMarker"]
+[editable path="KnifeMarker"]
