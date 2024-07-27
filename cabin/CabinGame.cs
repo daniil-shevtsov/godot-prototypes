@@ -23,10 +23,27 @@ public partial class CabinGame : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionJustReleased("jump"))
+		{
+			if (currentCameraMarker == initialMarker)
+			{
+				SwitchTo(knifeMarker);
+			}
+			else if (currentCameraMarker == knifeMarker)
+			{
+				SwitchTo(initialMarker);
+			}
+		}
+
 		if (currentCameraMarker != null)
 		{
 			camera3D.GlobalPosition = currentCameraMarker.cameraPosition;
 			camera3D.LookAt(currentCameraMarker.lookAtPosition);
 		}
+	}
+
+	private void SwitchTo(CameraMarker newMarker)
+	{
+		currentCameraMarker = newMarker;
 	}
 }

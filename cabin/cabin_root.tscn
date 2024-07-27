@@ -148,7 +148,7 @@ shape = SubResource("BoxShape3D_d3amd")
 mesh = SubResource("BoxMesh_2u1vc")
 
 [node name="Knife" type="StaticBody3D" parent="Cabin"]
-transform = Transform3D(0.49012, -0.10015, 2.958, 2.50305, -1.58597, -0.468436, 1.5794, 2.54454, -0.175545, 0.56158, 1.48524, 1.27353)
+transform = Transform3D(1.54133, 1.9295, 1.70334, 2.50305, -1.58597, -0.468436, 0.599197, 1.66185, -2.42471, 0.56158, 1.48524, 1.27353)
 
 [node name="knife" parent="Cabin/Knife" instance=ExtResource("4_7jbh0")]
 
@@ -177,6 +177,8 @@ cameraPosition = Vector3(0.023, 2.061, 2.967)
 lookAtPosition = Vector3(0.005, -0.732, -1.863)
 
 [node name="KnifeMarker" parent="." instance=ExtResource("7_75bk6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0234469, 2.06084, 1.04492)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5475, 2.06084, 1.04492)
+cameraPosition = Vector3(1.547, 2.061, 1.045)
+lookAtPosition = Vector3(0.562, 1.485, 1.274)
 
 [editable path="Cabin/Knife/knife"]
