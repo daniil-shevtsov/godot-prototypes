@@ -18,6 +18,7 @@ public partial class CabinGame : Node3D
 		knifeMarker = GetNode<CameraMarker>("KnifeMarker");
 
 		currentCameraMarker = initialMarker;
+		SwitchTo(initialMarker);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,16 +35,16 @@ public partial class CabinGame : Node3D
 				SwitchTo(initialMarker);
 			}
 		}
+	}
+
+	private void SwitchTo(CameraMarker newMarker)
+	{
+		currentCameraMarker = newMarker;
 
 		if (currentCameraMarker != null)
 		{
 			camera3D.GlobalPosition = currentCameraMarker.cameraMarker.GlobalPosition;
 			camera3D.LookAt(currentCameraMarker.lookAtMarker.GlobalPosition);
 		}
-	}
-
-	private void SwitchTo(CameraMarker newMarker)
-	{
-		currentCameraMarker = newMarker;
 	}
 }
