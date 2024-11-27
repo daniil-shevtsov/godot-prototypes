@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dv6oyi1p6venp"]
+
+[ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yefdw"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ecehe"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qccd0"]
+
+[sub_resource type="Environment" id="Environment_fu00s"]
+
+[node name="ProjectionRoot" type="Node3D"]
+script = ExtResource("1_osm2g")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_6d7ul")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_yefdw")
+
+[node name="Cube" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
+shape = SubResource("BoxShape3D_ecehe")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Cube"]
+mesh = SubResource("BoxMesh_qccd0")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fu00s")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75822, 0)
