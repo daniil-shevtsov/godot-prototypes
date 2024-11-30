@@ -49,6 +49,7 @@ height = 0.5
 
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
+mouseSensitivity = 0.01
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -99,7 +100,7 @@ mesh = SubResource("PlaneMesh_n52s6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00181699, 0.58029)
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2.45167)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3.58701)
 script = ExtResource("3_1de5m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]

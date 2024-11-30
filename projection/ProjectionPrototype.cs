@@ -14,6 +14,7 @@ public partial class ProjectionPrototype : Node3D
 	private AnimatedSprite2D shrek;
 	private ProjectionPlayer player;
 	private Tv tv;
+	private Camera3D camera;
 
 	private Vector2 originalSize = Vector2.Zero;
 	private Vector2 totalSizeChange = Vector2.Zero;
@@ -26,8 +27,13 @@ public partial class ProjectionPrototype : Node3D
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
 
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+	[Export] private float speed = 5.0f;
+	[Export] private float mouseSensitivity = 0.1f;
+	[Export] private float jumpForce = 10.0f;
+	[Export] private float gravity = 3.8f;
+
+	private Vector3 velocity = Vector3.Zero;
+	private Vector2 rotation = Vector2.Zero;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -40,6 +46,7 @@ public partial class ProjectionPrototype : Node3D
 		label = (Label)FindChild("Label");
 		player = (ProjectionPlayer)FindChild("Player");
 		tv = (Tv)FindChild("TV");
+		camera = (Camera3D)FindChild("Camera3D");
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
 		var activeMaterial = projectionQuad.MaterialOverride;
@@ -174,39 +181,63 @@ public partial class ProjectionPrototype : Node3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector3 velocity = player.Velocity;
-
-		// Add the gravity.
-		if (!player.IsOnFloor())
+		if (Input.IsActionJustPressed("quit"))
 		{
-			velocity.Y -= gravity * (float)delta;
+			GetTree().Quit();
 		}
 
-
-		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && player.IsOnFloor())
+		if (Input.IsActionJustPressed("toggle_mouse"))
 		{
-			velocity.Y = JumpVelocity;
+			if (Input.MouseMode == Input.MouseModeEnum.Visible)
+			{
+				Input.MouseMode = Input.MouseModeEnum.Captured;
+			}
+			else
+			{
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
 		}
 
+		Vector3 direction = Vector3.Zero;
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
+		if (Input.IsActionPressed("forward"))
+			direction -= player.Transform.Basis.Z;
+		if (Input.IsActionPressed("backwards"))
+			direction += player.Transform.Basis.Z;
+		if (Input.IsActionPressed("left"))
+			direction -= player.Transform.Basis.X;
+		if (Input.IsActionPressed("right"))
+			direction += player.Transform.Basis.X;
+
+		direction = direction.Normalized();
+		velocity.X = direction.X * speed;
+		velocity.Z = direction.Z * speed;
+
+		if (player.IsOnFloor() && Input.IsActionJustPressed("jump"))
 		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
+			velocity.Y = jumpForce;
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(player.Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, Speed);
+			velocity.Y += -gravity * (float)delta;
 		}
-
 		player.Velocity = velocity;
+
 		player.MoveAndSlide();
+	}
+
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseMotion mouseMotion)
+		{
+			rotation.Y -= mouseMotion.Relative.X * mouseSensitivity;
+			rotation.X -= mouseMotion.Relative.Y * mouseSensitivity;
+			rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 2, Mathf.Pi / 2);
+
+			player.RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
+			camera.RotationDegrees = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
+		}
 	}
 
 	private String VerticesString(Vector3[] vertices)
