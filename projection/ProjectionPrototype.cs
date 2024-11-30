@@ -13,6 +13,7 @@ public partial class ProjectionPrototype : Node3D
 	private Label label;
 	private AnimatedSprite2D shrek;
 	private ProjectionPlayer player;
+	private Tv tv;
 
 	private Vector2 originalSize = Vector2.Zero;
 	private Vector2 totalSizeChange = Vector2.Zero;
@@ -38,6 +39,7 @@ public partial class ProjectionPrototype : Node3D
 		shrek = (AnimatedSprite2D)FindChild("AnimatedSprite2D");
 		label = (Label)FindChild("Label");
 		player = (ProjectionPlayer)FindChild("Player");
+		tv = (Tv)FindChild("TV");
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
 		var activeMaterial = projectionQuad.MaterialOverride;

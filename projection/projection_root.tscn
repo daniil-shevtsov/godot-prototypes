@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=16 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
 [ext_resource type="Script" path="res://projection/ProjectionPlayer.cs" id="3_1de5m"]
+[ext_resource type="Script" path="res://projection/Tv.cs" id="3_b07y0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
 size = Vector3(10, 1, 10)
@@ -25,6 +26,13 @@ size = Vector2(0.75, 0.75)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fw2fv"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1is1y"]
+height = 0.5
+radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_74cpi"]
+height = 0.5
+
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
 
@@ -45,6 +53,7 @@ environment = SubResource("Environment_fu00s")
 
 [node name="TV" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61971, -1.82512)
+script = ExtResource("3_b07y0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="TV"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.445028, -0.509565)
@@ -84,3 +93,20 @@ shape = SubResource("CapsuleShape3D_fw2fv")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.125317)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.13099, 3, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("CylinderShape3D_1is1y")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.502857, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/RigidBody3D"]
+shape = SubResource("CylinderShape3D_74cpi")
+
+[node name="SliderJoint3D" type="SliderJoint3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.517941, 0)
+node_a = NodePath("..")
+node_b = NodePath("../RigidBody3D")
