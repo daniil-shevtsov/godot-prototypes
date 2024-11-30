@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=13 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
+[ext_resource type="Script" path="res://projection/ProjectionPlayer.cs" id="3_1de5m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
 size = Vector3(10, 1, 10)
@@ -22,6 +23,8 @@ size = Vector3(10, 1, 10)
 [sub_resource type="PlaneMesh" id="PlaneMesh_n52s6"]
 size = Vector2(0.75, 0.75)
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fw2fv"]
+
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
 
@@ -33,9 +36,6 @@ shape = SubResource("BoxShape3D_6d7ul")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("BoxMesh_yefdw")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fu00s")
 
@@ -44,13 +44,12 @@ environment = SubResource("Environment_fu00s")
 [node name="Screen" parent="SubViewport" instance=ExtResource("2_iml4i")]
 
 [node name="TV" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61971, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61971, -1.82512)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="TV"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.445028, -0.509565)
 
 [node name="HingeJoint3D" type="HingeJoint3D" parent="TV/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 node_a = NodePath("..")
 node_b = NodePath("../../Cube")
 motor/enable = true
@@ -75,3 +74,13 @@ mesh = SubResource("PlaneMesh_n52s6")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="TV/Cube"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00181699, 0.58029)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2.45167)
+script = ExtResource("3_1de5m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_fw2fv")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.125317)

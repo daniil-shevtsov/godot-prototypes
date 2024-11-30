@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcuewsn42c2wn"]
+[gd_scene load_steps=16 format=3 uid="uid://bcuewsn42c2wn"]
 
 [ext_resource type="Texture2D" uid="uid://cpl8m56vwv1hu" path="res://projection/asset/shrek_sprites.png" id="1_vnmhf"]
 
@@ -66,6 +66,12 @@ font_color = Color(0, 0, 0, 1)
 font_size = 48
 font_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qsmh5"]
+bg_color = Color(0.694118, 0.729412, 0.490196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_33pl8"]
+bg_color = Color(0.580392, 0.643137, 0.121569, 1)
+
 [node name="Screen" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -87,7 +93,7 @@ texture_filter = 1
 position = Vector2(606, 326)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_lwl4w")
-frame_progress = 0.03489
+frame_progress = 0.922574
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
@@ -116,3 +122,10 @@ size_flags_vertical = 8
 text = "Bottom Right"
 label_settings = SubResource("LabelSettings_l2ywn")
 horizontal_alignment = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/PanelContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxFlat_qsmh5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_33pl8")
+value = 75.0
