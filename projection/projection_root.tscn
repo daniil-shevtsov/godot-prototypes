@@ -75,12 +75,12 @@ mesh = SubResource("PlaneMesh_n52s6")
 [node name="OmniLight3D" type="OmniLight3D" parent="TV/Cube"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00181699, 0.58029)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2.45167)
 script = ExtResource("3_1de5m")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_fw2fv")
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+[node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.125317)
