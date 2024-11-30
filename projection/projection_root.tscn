@@ -50,6 +50,8 @@ height = 0.5
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
 mouseSensitivity = 0.01
+jumpForce = 3.0
+pushForce = 15.0
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -107,20 +109,21 @@ script = ExtResource("3_1de5m")
 shape = SubResource("CapsuleShape3D_fw2fv")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.125317)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.87468)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130995, 0.794283, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130995, 0.794283, 1.38751)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120308, 0)
 shape = SubResource("CylinderShape3D_1is1y")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0145918, 0)
 mesh = SubResource("CylinderMesh_xr5h1")
 
 [node name="SliderJoint3D" type="SliderJoint3D" parent="StaticBody3D"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.563695, 0)
 node_a = NodePath("..")
 node_b = NodePath("../RigidBody3D")
 linear_limit/upper_distance = 0.25

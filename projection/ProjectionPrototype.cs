@@ -32,6 +32,8 @@ public partial class ProjectionPrototype : Node3D
 	[Export] private float jumpForce = 10.0f;
 	[Export] private float gravity = 3.8f;
 
+	[Export] private float pushForce = 500f; //TODO: Calculate from player mass
+
 	private Vector3 velocity = Vector3.Zero;
 	private Vector2 rotation = Vector2.Zero;
 
@@ -224,6 +226,21 @@ public partial class ProjectionPrototype : Node3D
 		player.Velocity = velocity;
 
 		player.MoveAndSlide();
+
+		var collision = player.GetLastSlideCollision();
+		if (collision != null)
+		{
+			var collider = collision.GetCollider();
+			var collisionPosition = collision.GetPosition();
+
+			if (collider is RigidBody3D)
+			{
+				var body = collider as RigidBody3D;
+				var pushDirection = -collision.GetNormal();
+				var pushPosition = collisionPosition - body.GlobalPosition;
+				body.ApplyImpulse(pushDirection * pushForce * (float)delta, pushPosition);
+			}
+		}
 	}
 
 
