@@ -50,8 +50,6 @@ font_color = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 216.0
-offset_bottom = 79.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -63,7 +61,7 @@ texture_filter = 1
 position = Vector2(606, 326)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_lwl4w")
-frame_progress = 0.279646
+frame_progress = 0.221218
 
 [node name="Label" type="Label" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2

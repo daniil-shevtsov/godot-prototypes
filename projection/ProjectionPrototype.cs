@@ -39,9 +39,13 @@ public partial class ProjectionPrototype : Node3D
 	public override void _Process(double delta)
 	{
 		GD.Print($"is Playing {shrek.IsPlaying()}");
-		// if (label.GlobalPosition != shrek.GlobalPosition)
-		// {
-		// 	shrek.GlobalPosition = label.GlobalPosition;
-		// }
+		var center = panelContainer.GlobalPosition + panelContainer.Size / 2f;
+
+		if (center != shrek.GlobalPosition)
+		{
+			shrek.GlobalPosition = center;
+		}
+
+
 	}
 }
