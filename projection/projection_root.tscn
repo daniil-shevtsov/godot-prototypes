@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=17 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
@@ -32,6 +32,8 @@ radius = 1.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_74cpi"]
 height = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xw7rf"]
 
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
@@ -101,12 +103,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.13099, 3, 0)
 shape = SubResource("CylinderShape3D_1is1y")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.502857, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.907068, 0)
+gravity_scale = -1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/RigidBody3D"]
 shape = SubResource("CylinderShape3D_74cpi")
 
 [node name="SliderJoint3D" type="SliderJoint3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.517941, 0)
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.773283, 0)
 node_a = NodePath("..")
 node_b = NodePath("../RigidBody3D")
+linear_limit/upper_distance = 0.5
+linear_limit/lower_distance = -0.5
+linear_motion/restitution = 6.72
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.09533, 5.78969, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_xw7rf")
