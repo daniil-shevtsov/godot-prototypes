@@ -97,88 +97,8 @@ public partial class ProjectionPrototype : Node3D
 		{
 			change.Y = -1;
 		}
-		var speed = 1f;
-		var sizeChange = change * speed * (float)delta;
 
-		if (change != Vector2.Zero)
-		{
-			var originalArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
-			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
-			var oldVertices = originalVertices.AsVector3Array().ToList();
-
-			Vector3[] newVertices = oldVertices.Select(vertex =>
-			{
-				var newVertex = Vector3.Zero;
-				foreach (int index in Enumerable.Range(0, 3))
-				{
-					var coordinate = vertex[index];
-
-					if (index == 0)
-					{
-						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.X) * Mathf.Abs(sizeChange.X);
-					}
-					else if (index == 2)
-					{
-						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.Y) * Mathf.Abs(sizeChange.Y);
-					}
-				}
-				return newVertex;
-			}).ToArray();
-
-			var meshTool = new MeshDataTool();
-			var mesh = new ArrayMesh();
-
-			var projectionArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
-			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, projectionArrays);
-
-			meshTool.CreateFromSurface(mesh, 0);
-			for (var i = 0; i < meshTool.GetVertexCount(); i++)
-			{
-				meshTool.SetVertex(i, newVertices[i]);
-			}
-			mesh.ClearSurfaces();
-			meshTool.CommitToSurface(mesh);
-
-			projectionQuad.Mesh = mesh;
-
-			if (isStretching)
-			{
-				subViewport.Size = originalSubViewportSize;
-			}
-			else
-			{
-				var currentSize = new Vector2(
-					projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.X > 0f).X * 2f,
-					projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.Z > 0f).Z * 2f
-				);
-
-				var multiplier = new Vector2(
-					 currentSize.X / originalSize.X,
-					 currentSize.Y / originalSize.Y
-				);
-				GD.Print($"multiplier: ${multiplier}");
-				subViewport.Size = new Vector2I(
-					(int)(originalSubViewportSize.X * multiplier.X),
-					(int)(originalSubViewportSize.Y * multiplier.Y)
-				);
-			}
-		}
-
-		zoomMultiplier = 2;
-
-		if (Input.IsActionJustReleased("use"))
-		{
-			isStretching = !isStretching;
-		}
-
-		// if (Input.IsActionJustReleased("zoom_in"))
-		// {
-		// 	subViewport.Size = subViewport.Size * zoomMultiplier;
-		// }
-		// else if (Input.IsActionJustReleased("zoom_out"))
-		// {
-		// 	subViewport.Size = subViewport.Size / zoomMultiplier;
-		// }
+		// ResizeShrek(change, (float)delta);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -261,6 +181,85 @@ public partial class ProjectionPrototype : Node3D
 	{
 		return $"{vertices.Length} {String.Join(", ", vertices.Select(vertex => $"{vertex}"))}";
 	}
+
+
+	private void ResizeShrek(Vector2 change, float delta)
+	{
+		var speed = 1f;
+		var sizeChange = change * speed * delta;
+
+		if (change != Vector2.Zero)
+		{
+			var originalArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
+			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
+			var oldVertices = originalVertices.AsVector3Array().ToList();
+
+			Vector3[] newVertices = oldVertices.Select(vertex =>
+			{
+				var newVertex = Vector3.Zero;
+				foreach (int index in Enumerable.Range(0, 3))
+				{
+					var coordinate = vertex[index];
+
+					if (index == 0)
+					{
+						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.X) * Mathf.Abs(sizeChange.X);
+					}
+					else if (index == 2)
+					{
+						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.Y) * Mathf.Abs(sizeChange.Y);
+					}
+				}
+				return newVertex;
+			}).ToArray();
+
+			var meshTool = new MeshDataTool();
+			var mesh = new ArrayMesh();
+
+			var projectionArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
+			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, projectionArrays);
+
+			meshTool.CreateFromSurface(mesh, 0);
+			for (var i = 0; i < meshTool.GetVertexCount(); i++)
+			{
+				meshTool.SetVertex(i, newVertices[i]);
+			}
+			mesh.ClearSurfaces();
+			meshTool.CommitToSurface(mesh);
+
+			projectionQuad.Mesh = mesh;
+
+			if (isStretching)
+			{
+				subViewport.Size = originalSubViewportSize;
+			}
+			else
+			{
+				var currentSize = new Vector2(
+					projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.X > 0f).X * 2f,
+					projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.Z > 0f).Z * 2f
+				);
+
+				var multiplier = new Vector2(
+					 currentSize.X / originalSize.X,
+					 currentSize.Y / originalSize.Y
+				);
+				GD.Print($"multiplier: ${multiplier}");
+				subViewport.Size = new Vector2I(
+					(int)(originalSubViewportSize.X * multiplier.X),
+					(int)(originalSubViewportSize.Y * multiplier.Y)
+				);
+			}
+		}
+
+		zoomMultiplier = 2;
+
+		if (Input.IsActionJustReleased("use"))
+		{
+			isStretching = !isStretching;
+		}
+	}
+
 
 
 }

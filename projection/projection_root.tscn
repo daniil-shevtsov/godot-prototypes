@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=21 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
 [ext_resource type="Script" path="res://projection/ProjectionPlayer.cs" id="3_1de5m"]
 [ext_resource type="Script" path="res://projection/Tv.cs" id="3_b07y0"]
+[ext_resource type="Script" path="res://projection/PushableButton.cs" id="5_0mknt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
 size = Vector3(10, 1, 10)
@@ -111,33 +112,34 @@ shape = SubResource("CapsuleShape3D_fw2fv")
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.87468)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Button" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130995, 0.794283, 1.38751)
+script = ExtResource("5_0mknt")
+resistance = 15.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="ButtonBaseCollider" type="CollisionShape3D" parent="Button"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120308, 0)
 shape = SubResource("CylinderShape3D_1is1y")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="ButtonBaseMesh" type="MeshInstance3D" parent="Button"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0145918, 0)
 mesh = SubResource("CylinderMesh_xr5h1")
 
-[node name="SliderJoint3D" type="SliderJoint3D" parent="StaticBody3D"]
+[node name="ButtonSlider" type="SliderJoint3D" parent="Button"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.563695, 0)
 node_a = NodePath("..")
-node_b = NodePath("../RigidBody3D")
+node_b = NodePath("../ButtonBody")
 linear_limit/upper_distance = 0.25
 linear_limit/lower_distance = -0.25
 linear_motion/restitution = 6.72
 
-[node name="RigidBody3D" type="RigidBody3D" parent="StaticBody3D"]
+[node name="ButtonBody" type="RigidBody3D" parent="Button"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
-gravity_scale = -1.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button/ButtonBody"]
 shape = SubResource("CylinderShape3D_74cpi")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/RigidBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Button/ButtonBody"]
 mesh = SubResource("CylinderMesh_tdwyo")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
