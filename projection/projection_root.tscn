@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=10 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
@@ -12,6 +12,11 @@ size = Vector3(10, 1, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ecehe"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qccd0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w5spa"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_w6ut2"]
+size = Vector2(0.75, 0.75)
 
 [sub_resource type="Environment" id="Environment_fu00s"]
 
@@ -35,9 +40,10 @@ shape = SubResource("BoxShape3D_ecehe")
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Cube"]
 mesh = SubResource("BoxMesh_qccd0")
 
-[node name="SubViewport" type="SubViewport" parent="Cube"]
-
-[node name="Screen" parent="Cube/SubViewport" instance=ExtResource("2_iml4i")]
+[node name="ProjectionQuad" type="MeshInstance3D" parent="Cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.538266)
+material_override = SubResource("StandardMaterial3D_w5spa")
+mesh = SubResource("QuadMesh_w6ut2")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)
@@ -47,3 +53,7 @@ environment = SubResource("Environment_fu00s")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75822, 0)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="Screen" parent="SubViewport" instance=ExtResource("2_iml4i")]

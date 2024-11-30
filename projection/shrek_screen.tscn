@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bcuewsn42c2wn"]
+[gd_scene load_steps=8 format=3 uid="uid://bcuewsn42c2wn"]
 
 [ext_resource type="Texture2D" uid="uid://cpl8m56vwv1hu" path="res://projection/asset/shrek_sprites.png" id="1_vnmhf"]
 
@@ -38,19 +38,37 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_te6it"]
+font_size = 58
+font_color = Color(0, 0, 0, 1)
+
 [node name="Screen" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 216.0
+offset_bottom = 79.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/PanelContainer"]
 texture_filter = 1
-position = Vector2(32, 36)
+position = Vector2(606, 326)
+scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_lwl4w")
-frame_progress = 0.941075
+frame_progress = 0.279646
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+text = "CENTER
+"
+label_settings = SubResource("LabelSettings_te6it")
+horizontal_alignment = 1
+vertical_alignment = 1
