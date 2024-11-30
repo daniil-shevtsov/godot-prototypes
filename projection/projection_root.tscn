@@ -93,7 +93,7 @@ shape = SubResource("CapsuleShape3D_fw2fv")
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.87468)
 
-[node name="Button" parent="." instance=ExtResource("5_6y22p")]
+[node name="GroundButton" parent="." instance=ExtResource("5_6y22p")]
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.09533, 5.78969, 0)

@@ -16,6 +16,8 @@ public partial class ProjectionPrototype : Node3D
 	private Tv tv;
 	private Camera3D camera;
 
+	private PushableButton groundButton;
+
 	private Vector2 originalSize = Vector2.Zero;
 	private Vector2 totalSizeChange = Vector2.Zero;
 
@@ -49,6 +51,7 @@ public partial class ProjectionPrototype : Node3D
 		player = (ProjectionPlayer)FindChild("Player");
 		tv = (Tv)FindChild("TV");
 		camera = (Camera3D)FindChild("Camera3D");
+		groundButton = (PushableButton)FindChild("GroundButton");
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
 		var activeMaterial = projectionQuad.MaterialOverride;
@@ -161,6 +164,15 @@ public partial class ProjectionPrototype : Node3D
 				body.ApplyImpulse(pushDirection * pushForce * (float)delta, pushPosition);
 			}
 		}
+		if (groundButton.IsEnabled && !shrek.IsPlaying())
+		{
+			shrek.Play();
+		}
+		else if (!groundButton.IsEnabled)
+		{
+			shrek.Stop();
+		}
+
 	}
 
 
