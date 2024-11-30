@@ -45,22 +45,24 @@ public partial class ProjectionPrototype : Node3D
 
 
 		var change = Vector2.Zero;
-		if (Input.IsActionJustReleased("right"))
+		if (Input.IsActionPressed("right"))
 		{
 			change.X = 1;
 		}
-		else if (Input.IsActionJustPressed("left"))
+		else if (Input.IsActionPressed("left"))
 		{
 			change.X = -1;
 		}
-		else if (Input.IsActionJustPressed("forward"))
+		else if (Input.IsActionPressed("forward"))
 		{
 			change.Y = 1;
 		}
-		else if (Input.IsActionJustPressed("backwards"))
+		else if (Input.IsActionPressed("backwards"))
 		{
 			change.Y = -1;
 		}
+
+		change = change * (float)delta * 10f;
 
 		if (change != Vector2.Zero)
 		{
