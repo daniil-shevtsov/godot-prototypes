@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class ProjectionPrototype : Node3D
 {
@@ -38,7 +39,6 @@ public partial class ProjectionPrototype : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		GD.Print($"is Playing {shrek.IsPlaying()}");
 		var center = panelContainer.GlobalPosition + panelContainer.Size / 2f;
 
 		if (center != shrek.GlobalPosition)
@@ -47,5 +47,18 @@ public partial class ProjectionPrototype : Node3D
 		}
 
 
+		var change = 0;
+		if (Input.IsActionJustReleased("right"))
+		{
+			change = 1;
+		}
+		else if (Input.IsActionJustPressed("left"))
+		{
+			change = -1;
+		}
+		var verticesString = String.Join(", ", projectionQuad.Mesh.GetFaces().ToList().Select(vertex => $"{vertex}"));
+		GD.Print($"{projectionQuad.Mesh.GetFaces().Length} vertices: {verticesString}");
 	}
+
+
 }

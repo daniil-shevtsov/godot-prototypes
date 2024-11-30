@@ -19,7 +19,7 @@ size = Vector3(10, 1, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w5spa"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_w6ut2"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_n52s6"]
 size = Vector2(0.75, 0.75)
 
 [node name="ProjectionRoot" type="Node3D"]
@@ -69,9 +69,9 @@ shape = SubResource("BoxShape3D_ecehe")
 mesh = SubResource("BoxMesh_qccd0")
 
 [node name="ProjectionQuad" type="MeshInstance3D" parent="TV/Cube"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.51)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.51)
 material_override = SubResource("StandardMaterial3D_w5spa")
-mesh = SubResource("QuadMesh_w6ut2")
+mesh = SubResource("PlaneMesh_n52s6")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="TV/Cube"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00181699, 0.58029)
