@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=20 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
@@ -27,10 +27,22 @@ size = Vector2(0.75, 0.75)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fw2fv"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_1is1y"]
-height = 0.5
+height = 0.25
 radius = 1.0
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_xr5h1"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.5
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_74cpi"]
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qv6li"]
+albedo_color = Color(1, 0.176471, 0.156863, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tdwyo"]
+material = SubResource("StandardMaterial3D_qv6li")
 height = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xw7rf"]
@@ -97,25 +109,32 @@ shape = SubResource("CapsuleShape3D_fw2fv")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.125317)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.13099, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130995, 0.794283, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120308, 0)
 shape = SubResource("CylinderShape3D_1is1y")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("CylinderMesh_xr5h1")
+
+[node name="SliderJoint3D" type="SliderJoint3D" parent="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.5, 0)
+node_a = NodePath("..")
+node_b = NodePath("../RigidBody3D")
+linear_limit/upper_distance = 0.25
+linear_limit/lower_distance = -0.25
+linear_motion/restitution = 6.72
+
 [node name="RigidBody3D" type="RigidBody3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.907068, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 gravity_scale = -1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/RigidBody3D"]
 shape = SubResource("CylinderShape3D_74cpi")
 
-[node name="SliderJoint3D" type="SliderJoint3D" parent="StaticBody3D"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.773283, 0)
-node_a = NodePath("..")
-node_b = NodePath("../RigidBody3D")
-linear_limit/upper_distance = 0.5
-linear_limit/lower_distance = -0.5
-linear_motion/restitution = 6.72
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/RigidBody3D"]
+mesh = SubResource("CylinderMesh_tdwyo")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.09533, 5.78969, 0)
