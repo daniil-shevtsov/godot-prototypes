@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://b1kgtlk1k4tvb"]
+
+[ext_resource type="Script" path="res://projection/PushableButton.cs" id="1_1h7cw"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1is1y"]
+height = 0.25
+radius = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xr5h1"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_74cpi"]
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qv6li"]
+albedo_color = Color(1, 0.176471, 0.156863, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tdwyo"]
+material = SubResource("StandardMaterial3D_qv6li")
+height = 0.5
+
+[node name="Button" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130995, 0.794283, 1.38751)
+script = ExtResource("1_1h7cw")
+resistance = 15.0
+
+[node name="ButtonBaseCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120308, 0)
+shape = SubResource("CylinderShape3D_1is1y")
+
+[node name="ButtonBaseMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0145918, 0)
+mesh = SubResource("CylinderMesh_xr5h1")
+
+[node name="ButtonSlider" type="SliderJoint3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.563695, 0)
+node_a = NodePath("..")
+node_b = NodePath("../ButtonBody")
+linear_limit/upper_distance = 0.25
+linear_limit/lower_distance = -0.25
+linear_motion/restitution = 6.72
+
+[node name="ButtonBody" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonBody"]
+shape = SubResource("CylinderShape3D_74cpi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ButtonBody"]
+mesh = SubResource("CylinderMesh_tdwyo")
