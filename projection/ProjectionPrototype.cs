@@ -44,33 +44,46 @@ public partial class ProjectionPrototype : Node3D
 		}
 
 
-		var change = 0;
+		var change = Vector2.Zero;
 		if (Input.IsActionJustReleased("right"))
 		{
-			change = 1;
+			change.X = 1;
 		}
 		else if (Input.IsActionJustPressed("left"))
 		{
-			change = -1;
+			change.X = -1;
+		}
+		else if (Input.IsActionJustPressed("forward"))
+		{
+			change.Y = 1;
+		}
+		else if (Input.IsActionJustPressed("backwards"))
+		{
+			change.Y = -1;
 		}
 
-		if (change != 0)
+		if (change != Vector2.Zero)
 		{
 			var originalArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
 			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
 			var oldVertices = originalVertices.AsVector3Array().ToList();
 
 			var oldSize = Mathf.Abs(oldVertices.Find(vertex => vertex.X != 0).X);
-			var newSize = oldSize + 0.1f * change;
+			var sizeChange = change * 0.1f;
+			var newSize = oldSize + 0.1f * change.X;
 			Vector3[] newVertices = oldVertices.Select(vertex =>
 			{
 				var newVertex = Vector3.Zero;
 				foreach (int index in Enumerable.Range(0, 3))
 				{
 					var coordinate = vertex[index];
-					if (coordinate != 0f)
+					if (index == 0)
 					{
-						newVertex[index] = Mathf.Sign(coordinate) * Mathf.Abs(newSize);
+						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.X) * Mathf.Abs(sizeChange.X);
+					}
+					else if (index == 2)
+					{
+						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.Y) * Mathf.Abs(sizeChange.Y);
 					}
 				}
 				return newVertex;
