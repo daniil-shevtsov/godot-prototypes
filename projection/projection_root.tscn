@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=8 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
+[ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
 size = Vector3(10, 1, 10)
@@ -33,6 +34,10 @@ shape = SubResource("BoxShape3D_ecehe")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Cube"]
 mesh = SubResource("BoxMesh_qccd0")
+
+[node name="SubViewport" type="SubViewport" parent="Cube"]
+
+[node name="Screen" parent="Cube/SubViewport" instance=ExtResource("2_iml4i")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)

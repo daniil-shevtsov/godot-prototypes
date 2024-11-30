@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcuewsn42c2wn"]
+
+[ext_resource type="Texture2D" uid="uid://cpl8m56vwv1hu" path="res://projection/asset/shrek_sprites.png" id="1_vnmhf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prjwx"]
+atlas = ExtResource("1_vnmhf")
+region = Rect2(74, 633, 47, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3ag6"]
+atlas = ExtResource("1_vnmhf")
+region = Rect2(122, 633, 47, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0c3gq"]
+atlas = ExtResource("1_vnmhf")
+region = Rect2(170, 633, 47, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwjv4"]
+atlas = ExtResource("1_vnmhf")
+region = Rect2(218, 633, 47, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lwl4w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prjwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3ag6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0c3gq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwjv4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Screen" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer"]
+texture_filter = 1
+position = Vector2(32, 36)
+sprite_frames = SubResource("SpriteFrames_lwl4w")
+frame_progress = 0.941075
