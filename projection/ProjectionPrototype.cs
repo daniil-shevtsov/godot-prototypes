@@ -8,6 +8,7 @@ public partial class ProjectionPrototype : Node3D
 	private MeshInstance3D projectionQuad;
 	private SubViewport subViewport;
 
+	private CanvasLayer canvasLayer;
 	private PanelContainer panelContainer;
 	private Label label;
 	private AnimatedSprite2D shrek;
@@ -17,6 +18,7 @@ public partial class ProjectionPrototype : Node3D
 	{
 		projectionQuad = (MeshInstance3D)FindChild("ProjectionQuad");
 		subViewport = (SubViewport)FindChild("SubViewport");
+		canvasLayer = (CanvasLayer)FindChild("CanvasLayer");
 		panelContainer = (PanelContainer)FindChild("PanelContainer");
 		shrek = (AnimatedSprite2D)FindChild("AnimatedSprite2D");
 		label = (Label)FindChild("Label");
@@ -43,7 +45,6 @@ public partial class ProjectionPrototype : Node3D
 			shrek.GlobalPosition = center;
 		}
 
-
 		var change = Vector2.Zero;
 		if (Input.IsActionPressed("right"))
 		{
@@ -61,8 +62,8 @@ public partial class ProjectionPrototype : Node3D
 		{
 			change.Y = -1;
 		}
-
-		change = change * (float)delta * 10f;
+		var speed = 1f;
+		var sizeChange = change * speed * (float)delta;
 
 		if (change != Vector2.Zero)
 		{
@@ -70,15 +71,13 @@ public partial class ProjectionPrototype : Node3D
 			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
 			var oldVertices = originalVertices.AsVector3Array().ToList();
 
-			var oldSize = Mathf.Abs(oldVertices.Find(vertex => vertex.X != 0).X);
-			var sizeChange = change * 0.1f;
-			var newSize = oldSize + 0.1f * change.X;
 			Vector3[] newVertices = oldVertices.Select(vertex =>
 			{
 				var newVertex = Vector3.Zero;
 				foreach (int index in Enumerable.Range(0, 3))
 				{
 					var coordinate = vertex[index];
+
 					if (index == 0)
 					{
 						newVertex[index] = coordinate + Mathf.Sign(coordinate) * Mathf.Sign(sizeChange.X) * Mathf.Abs(sizeChange.X);
@@ -91,71 +90,32 @@ public partial class ProjectionPrototype : Node3D
 				return newVertex;
 			}).ToArray();
 
-			// var oldPlaneMesh = (PlaneMesh)projectionQuad.Mesh;
-
-			// var planeMesh = new PlaneMesh
-			// {
-			// 	Size = oldPlaneMesh.Size,
-			// 	SubdivideDepth = oldPlaneMesh.SubdivideDepth,
-			// 	SubdivideWidth = oldPlaneMesh.SubdivideWidth
-			// };
-
-			// var surfaceTool = new SurfaceTool();
-			// surfaceTool.CreateFrom(planeMesh, 0);
-			// var arrayPlane = surfaceTool.Commit();
-			// var dataTool = new MeshDataTool();
-			// dataTool.CreateFromSurface(arrayPlane, 0);
-
-			// for (int i = 0; i < arrayPlane.GetSurfaceCount(); i++)
-			// {
-			// 	// There is no SurfaceRemove in Godot 4.0+ so we have to remove it manually
-			// 	arrayPlane.ClearSurfaces();
-			// }
-
-			// // Commit and generate normals
-			// dataTool.CommitToSurface(arrayPlane);
-			// // Generate with SurfaceTool
-			// surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
-			// surfaceTool.CreateFrom(arrayPlane, 0);
-			// surfaceTool.GenerateNormals();
-
-			// projectionQuad.Mesh = surfaceTool.Commit();
-
 			var meshTool = new MeshDataTool();
-			// var surfaceTool = new SurfaceTool();
-			// surfaceTool.CreateFrom(projectionQuad.Mesh, 0);
-			// var mesh = surfaceTool.Commit();
 			var mesh = new ArrayMesh();
-			var arrays = projectionQuad.Mesh.SurfaceGetArrays(0);
-			arrays[0] = newVertices;
-			// mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
 
-			var projectionArrays2 = projectionQuad.Mesh.SurfaceGetArrays(0);
-			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, projectionArrays2);
+			var projectionArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
+			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, projectionArrays);
 
 			meshTool.CreateFromSurface(mesh, 0);
-
-			GD.Print($"projectionQuad {originalVertices.AsVector3Array().Length} {meshTool.GetVertexCount()}");
-
 			for (var i = 0; i < meshTool.GetVertexCount(); i++)
 			{
-				Vector3 vertex = meshTool.GetVertex(i);
-				// // In this example we extend the mesh by one unit, which results in separated faces as it is flat shaded.
-				// vertex += meshTool.GetVertexNormal(i);
-				// Save your change.
 				meshTool.SetVertex(i, newVertices[i]);
 			}
 			mesh.ClearSurfaces();
 			meshTool.CommitToSurface(mesh);
 
 			projectionQuad.Mesh = mesh;
-
-			var oldVerticesString = VerticesString(oldVertices.ToArray());
-			var newVerticesString = VerticesString(newVertices);
-
-			GD.Print($"old {oldVerticesString} new {newVerticesString}");
 		}
 
+		var zoomMultiplier = 2;
+		if (Input.IsActionJustReleased("zoom_in"))
+		{
+			subViewport.Size = subViewport.Size * zoomMultiplier;
+		}
+		else if (Input.IsActionJustReleased("zoom_out"))
+		{
+			subViewport.Size = subViewport.Size / zoomMultiplier;
+		}
 	}
 
 	private String VerticesString(Vector3[] vertices)

@@ -1,6 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://bcuewsn42c2wn"]
+[gd_scene load_steps=14 format=3 uid="uid://bcuewsn42c2wn"]
 
 [ext_resource type="Texture2D" uid="uid://cpl8m56vwv1hu" path="res://projection/asset/shrek_sprites.png" id="1_vnmhf"]
+
+[sub_resource type="Theme" id="Theme_do072"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xs6pu"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_prjwx"]
 atlas = ExtResource("1_vnmhf")
@@ -38,8 +46,24 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Theme" id="Theme_6jnl1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gp1uc"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
 [sub_resource type="LabelSettings" id="LabelSettings_te6it"]
 font_size = 58
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_usnnw"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_l2ywn"]
+font_size = 48
 font_color = Color(0, 0, 0, 1)
 
 [node name="Screen" type="Node2D"]
@@ -52,6 +76,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_do072")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xs6pu")
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
@@ -61,12 +87,32 @@ texture_filter = 1
 position = Vector2(606, 326)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_lwl4w")
-frame_progress = 0.0636742
+frame_progress = 0.604479
 
-[node name="Label" type="Label" parent="CanvasLayer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+theme = SubResource("Theme_6jnl1")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gp1uc")
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/PanelContainer"]
 layout_mode = 2
 text = "CENTER
 "
 label_settings = SubResource("LabelSettings_te6it")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Top Right"
+label_settings = SubResource("LabelSettings_usnnw")
+
+[node name="Label3" type="Label" parent="CanvasLayer/PanelContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Bottom Right"
+label_settings = SubResource("LabelSettings_l2ywn")
+horizontal_alignment = 2
