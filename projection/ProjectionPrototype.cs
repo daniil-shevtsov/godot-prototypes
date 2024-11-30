@@ -22,12 +22,9 @@ public partial class ProjectionPrototype : Node3D
 		label = (Label)FindChild("Label");
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
-		GD.Print($"projectionQuad {projectionQuad} {projectionQuad.MaterialOverride}");
 		var activeMaterial = projectionQuad.MaterialOverride;
 		var kek = activeMaterial.Duplicate();
-		GD.Print($" {activeMaterial} {kek}");
 		var overrideMaterial = kek as StandardMaterial3D;
-		GD.Print($"{overrideMaterial}");
 
 		overrideMaterial.AlbedoTexture = subViewport.GetTexture();
 		projectionQuad.MaterialOverride = overrideMaterial;
@@ -59,7 +56,9 @@ public partial class ProjectionPrototype : Node3D
 
 		if (change != 0)
 		{
-			var oldVertices = projectionQuad.Mesh.GetFaces().ToList();
+			var originalArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
+			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
+			var oldVertices = originalVertices.AsVector3Array().ToList();
 
 			var oldSize = Mathf.Abs(oldVertices.Find(vertex => vertex.X != 0).X);
 			var newSize = oldSize + 0.1f * change;
@@ -77,6 +76,36 @@ public partial class ProjectionPrototype : Node3D
 				return newVertex;
 			}).ToArray();
 
+			// var oldPlaneMesh = (PlaneMesh)projectionQuad.Mesh;
+
+			// var planeMesh = new PlaneMesh
+			// {
+			// 	Size = oldPlaneMesh.Size,
+			// 	SubdivideDepth = oldPlaneMesh.SubdivideDepth,
+			// 	SubdivideWidth = oldPlaneMesh.SubdivideWidth
+			// };
+
+			// var surfaceTool = new SurfaceTool();
+			// surfaceTool.CreateFrom(planeMesh, 0);
+			// var arrayPlane = surfaceTool.Commit();
+			// var dataTool = new MeshDataTool();
+			// dataTool.CreateFromSurface(arrayPlane, 0);
+
+			// for (int i = 0; i < arrayPlane.GetSurfaceCount(); i++)
+			// {
+			// 	// There is no SurfaceRemove in Godot 4.0+ so we have to remove it manually
+			// 	arrayPlane.ClearSurfaces();
+			// }
+
+			// // Commit and generate normals
+			// dataTool.CommitToSurface(arrayPlane);
+			// // Generate with SurfaceTool
+			// surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
+			// surfaceTool.CreateFrom(arrayPlane, 0);
+			// surfaceTool.GenerateNormals();
+
+			// projectionQuad.Mesh = surfaceTool.Commit();
+
 			var meshTool = new MeshDataTool();
 			// var surfaceTool = new SurfaceTool();
 			// surfaceTool.CreateFrom(projectionQuad.Mesh, 0);
@@ -85,10 +114,13 @@ public partial class ProjectionPrototype : Node3D
 			var arrays = projectionQuad.Mesh.SurfaceGetArrays(0);
 			arrays[0] = newVertices;
 			// mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
-			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, new PlaneMesh().GetMeshArrays());
 
-			var originalArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
-			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
+			var projectionArrays1 = ((PlaneMesh)projectionQuad.Mesh).GetMeshArrays();
+			var projectionArrays2 = projectionQuad.Mesh.SurfaceGetArrays(0);
+
+			GD.Print($"KEK1 {VerticesString(projectionArrays1[(int)Mesh.ArrayType.Vertex].AsVector3Array())} KEK2 {VerticesString(projectionArrays2[(int)Mesh.ArrayType.Vertex].AsVector3Array())}");
+
+			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, projectionArrays2);
 
 			meshTool.CreateFromSurface(mesh, 0);
 
