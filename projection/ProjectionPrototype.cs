@@ -56,8 +56,50 @@ public partial class ProjectionPrototype : Node3D
 		{
 			change = -1;
 		}
-		var verticesString = String.Join(", ", projectionQuad.Mesh.GetFaces().ToList().Select(vertex => $"{vertex}"));
-		GD.Print($"{projectionQuad.Mesh.GetFaces().Length} vertices: {verticesString}");
+
+		if (change != 0)
+		{
+			var oldVertices = projectionQuad.Mesh.GetFaces().ToList();
+
+			var oldSize = Mathf.Abs(oldVertices.Find(vertex => vertex.X != 0).X);
+			var newSize = oldSize + 0.1f;
+			var newVertices = oldVertices.Select(vertex =>
+			{
+				var newVertex = Vector3.Zero;
+				foreach (int index in Enumerable.Range(0, 3))
+				{
+					var coordinate = vertex[index];
+					if (coordinate != 0f)
+					{
+						newVertex[index] = Mathf.Sign(coordinate) * Mathf.Abs(newSize);
+					}
+				}
+				return newVertex;
+			});
+
+			var verticesString = String.Join(", ", oldVertices.Select(vertex => $"{vertex}"));
+			GD.Print($"{projectionQuad.Mesh.GetFaces().Length} vertices: {verticesString}");
+
+			var meshTool = new MeshDataTool();
+			var surfaceTool = new SurfaceTool();
+			surfaceTool.CreateFrom(projectionQuad.Mesh, 0);
+			var mesh = surfaceTool.Commit();
+
+			meshTool.CreateFromSurface(mesh, 0);
+			for (var i = 0; i < meshTool.GetVertexCount(); i++)
+			{
+				Vector3 vertex = meshTool.GetVertex(i);
+				// // In this example we extend the mesh by one unit, which results in separated faces as it is flat shaded.
+				// vertex += meshTool.GetVertexNormal(i);
+				// Save your change.
+				meshTool.SetVertex(i, vertex);
+			}
+			mesh.ClearSurfaces();
+			meshTool.CommitToSurface(mesh);
+
+			projectionQuad.Mesh = mesh;
+		}
+
 	}
 
 
