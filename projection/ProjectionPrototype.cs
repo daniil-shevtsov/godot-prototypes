@@ -62,8 +62,8 @@ public partial class ProjectionPrototype : Node3D
 			var oldVertices = projectionQuad.Mesh.GetFaces().ToList();
 
 			var oldSize = Mathf.Abs(oldVertices.Find(vertex => vertex.X != 0).X);
-			var newSize = oldSize + 0.1f;
-			var newVertices = oldVertices.Select(vertex =>
+			var newSize = oldSize + 0.1f * change;
+			Vector3[] newVertices = oldVertices.Select(vertex =>
 			{
 				var newVertex = Vector3.Zero;
 				foreach (int index in Enumerable.Range(0, 3))
@@ -75,31 +75,49 @@ public partial class ProjectionPrototype : Node3D
 					}
 				}
 				return newVertex;
-			});
-
-			var verticesString = String.Join(", ", oldVertices.Select(vertex => $"{vertex}"));
-			GD.Print($"{projectionQuad.Mesh.GetFaces().Length} vertices: {verticesString}");
+			}).ToArray();
 
 			var meshTool = new MeshDataTool();
-			var surfaceTool = new SurfaceTool();
-			surfaceTool.CreateFrom(projectionQuad.Mesh, 0);
-			var mesh = surfaceTool.Commit();
+			// var surfaceTool = new SurfaceTool();
+			// surfaceTool.CreateFrom(projectionQuad.Mesh, 0);
+			// var mesh = surfaceTool.Commit();
+			var mesh = new ArrayMesh();
+			var arrays = projectionQuad.Mesh.SurfaceGetArrays(0);
+			arrays[0] = newVertices;
+			// mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, new PlaneMesh().GetMeshArrays());
+
+			var originalArrays = projectionQuad.Mesh.SurfaceGetArrays(0);
+			var originalVertices = originalArrays[(int)Mesh.ArrayType.Vertex];
 
 			meshTool.CreateFromSurface(mesh, 0);
+
+			GD.Print($"projectionQuad {originalVertices.AsVector3Array().Length} {meshTool.GetVertexCount()}");
+
 			for (var i = 0; i < meshTool.GetVertexCount(); i++)
 			{
 				Vector3 vertex = meshTool.GetVertex(i);
 				// // In this example we extend the mesh by one unit, which results in separated faces as it is flat shaded.
 				// vertex += meshTool.GetVertexNormal(i);
 				// Save your change.
-				meshTool.SetVertex(i, vertex);
+				meshTool.SetVertex(i, newVertices[i]);
 			}
 			mesh.ClearSurfaces();
 			meshTool.CommitToSurface(mesh);
 
 			projectionQuad.Mesh = mesh;
+
+			var oldVerticesString = VerticesString(oldVertices.ToArray());
+			var newVerticesString = VerticesString(newVertices);
+
+			GD.Print($"old {oldVerticesString} new {newVerticesString}");
 		}
 
+	}
+
+	private String VerticesString(Vector3[] vertices)
+	{
+		return $"{vertices.Length} {String.Join(", ", vertices.Select(vertex => $"{vertex}"))}";
 	}
 
 
