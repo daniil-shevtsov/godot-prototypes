@@ -13,6 +13,14 @@ public partial class ProjectionPrototype : Node3D
 	private Label label;
 	private AnimatedSprite2D shrek;
 
+	private Vector2 originalSize = Vector2.Zero;
+	private Vector2 totalSizeChange = Vector2.Zero;
+
+	private Vector2I originalSubViewportSize = Vector2I.Zero;
+	private float zoomMultiplier = 1f;
+
+	private bool isStretching = true;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -32,6 +40,14 @@ public partial class ProjectionPrototype : Node3D
 		projectionQuad.MaterialOverride = overrideMaterial;
 
 		shrek.Play(shrek.Animation);
+
+		originalSize = new Vector2(
+			projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.X > 0f).X * 2f,
+			projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.Z > 0f).Z * 2f
+		);
+
+		originalSubViewportSize = subViewport.Size;
+
 		// GD.Print($"panel {panelContainer.Size} {panelContainer.GlobalPosition}  label {label.Size} {label.GlobalPosition} {label.Position} shrek {shrek.SpriteFrames.GetFrameTexture("default", 0).GetSize() * shrek.Scale} {shrek.GlobalPosition}");
 	}
 
@@ -105,17 +121,45 @@ public partial class ProjectionPrototype : Node3D
 			meshTool.CommitToSurface(mesh);
 
 			projectionQuad.Mesh = mesh;
+
+			if (isStretching)
+			{
+				subViewport.Size = originalSubViewportSize;
+			}
+			else
+			{
+				var currentSize = new Vector2(
+					projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.X > 0f).X * 2f,
+					projectionQuad.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().ToList().Find(kek => kek.Z > 0f).Z * 2f
+				);
+
+				var multiplier = new Vector2(
+					 currentSize.X / originalSize.X,
+					 currentSize.Y / originalSize.Y
+				);
+				GD.Print($"multiplier: ${multiplier}");
+				subViewport.Size = new Vector2I(
+					(int)(originalSubViewportSize.X * multiplier.X),
+					(int)(originalSubViewportSize.Y * multiplier.Y)
+				);
+			}
 		}
 
-		var zoomMultiplier = 2;
-		if (Input.IsActionJustReleased("zoom_in"))
+		zoomMultiplier = 2;
+
+		if (Input.IsActionJustReleased("use"))
 		{
-			subViewport.Size = subViewport.Size * zoomMultiplier;
+			isStretching = !isStretching;
 		}
-		else if (Input.IsActionJustReleased("zoom_out"))
-		{
-			subViewport.Size = subViewport.Size / zoomMultiplier;
-		}
+
+		// if (Input.IsActionJustReleased("zoom_in"))
+		// {
+		// 	subViewport.Size = subViewport.Size * zoomMultiplier;
+		// }
+		// else if (Input.IsActionJustReleased("zoom_out"))
+		// {
+		// 	subViewport.Size = subViewport.Size / zoomMultiplier;
+		// }
 	}
 
 	private String VerticesString(Vector3[] vertices)

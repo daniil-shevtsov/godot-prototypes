@@ -87,7 +87,7 @@ texture_filter = 1
 position = Vector2(606, 326)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_lwl4w")
-frame_progress = 0.604479
+frame_progress = 0.03489
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
