@@ -51,7 +51,7 @@ environment = SubResource("Environment_fu00s")
 [node name="Screen" parent="SubViewport" instance=ExtResource("2_iml4i")]
 
 [node name="TV" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61971, -1.82512)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61971, -0.72512)
 script = ExtResource("3_b07y0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="TV"]
