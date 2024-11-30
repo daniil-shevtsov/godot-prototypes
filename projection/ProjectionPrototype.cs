@@ -115,11 +115,7 @@ public partial class ProjectionPrototype : Node3D
 			arrays[0] = newVertices;
 			// mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
 
-			var projectionArrays1 = ((PlaneMesh)projectionQuad.Mesh).GetMeshArrays();
 			var projectionArrays2 = projectionQuad.Mesh.SurfaceGetArrays(0);
-
-			GD.Print($"KEK1 {VerticesString(projectionArrays1[(int)Mesh.ArrayType.Vertex].AsVector3Array())} KEK2 {VerticesString(projectionArrays2[(int)Mesh.ArrayType.Vertex].AsVector3Array())}");
-
 			mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, projectionArrays2);
 
 			meshTool.CreateFromSurface(mesh, 0);
