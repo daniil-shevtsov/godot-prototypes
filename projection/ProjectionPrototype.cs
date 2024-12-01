@@ -17,6 +17,7 @@ public partial class ProjectionPrototype : Node3D
 	private Camera3D camera;
 
 	private PushableButton groundButton;
+	private Remote remote;
 
 	private Vector2 originalSize = Vector2.Zero;
 	private Vector2 totalSizeChange = Vector2.Zero;
@@ -52,14 +53,11 @@ public partial class ProjectionPrototype : Node3D
 		tv = (Tv)FindChild("TV");
 		camera = (Camera3D)FindChild("Camera3D");
 		groundButton = (PushableButton)FindChild("GroundButton");
+		remote = (Remote)FindChild("Remote");
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
-		var activeMaterial = projectionQuad.MaterialOverride;
-		var kek = activeMaterial.Duplicate();
-		var overrideMaterial = kek as StandardMaterial3D;
-
-		overrideMaterial.AlbedoTexture = subViewport.GetTexture();
-		projectionQuad.MaterialOverride = overrideMaterial;
+		AssignSubviewportToQuad(subViewport, projectionQuad);
+		AssignSubviewportToQuad(subViewport, remote.screenPlane);
 
 		shrek.Play(shrek.Animation);
 
@@ -71,6 +69,16 @@ public partial class ProjectionPrototype : Node3D
 		originalSubViewportSize = subViewport.Size;
 
 		// GD.Print($"panel {panelContainer.Size} {panelContainer.GlobalPosition}  label {label.Size} {label.GlobalPosition} {label.Position} shrek {shrek.SpriteFrames.GetFrameTexture("default", 0).GetSize() * shrek.Scale} {shrek.GlobalPosition}");
+	}
+
+	private void AssignSubviewportToQuad(SubViewport subViewport, MeshInstance3D quad)
+	{
+		var activeMaterial = quad.MaterialOverride;
+		var kek = activeMaterial.Duplicate();
+		var overrideMaterial = kek as StandardMaterial3D;
+
+		overrideMaterial.AlbedoTexture = subViewport.GetTexture();
+		quad.MaterialOverride = overrideMaterial;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

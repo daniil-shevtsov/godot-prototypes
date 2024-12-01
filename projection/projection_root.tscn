@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=17 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
 [ext_resource type="Script" path="res://projection/ProjectionPlayer.cs" id="3_1de5m"]
 [ext_resource type="Script" path="res://projection/Tv.cs" id="3_b07y0"]
 [ext_resource type="PackedScene" uid="uid://b1kgtlk1k4tvb" path="res://projection/pushable_button.tscn" id="5_6y22p"]
+[ext_resource type="PackedScene" uid="uid://bnibooycb66ha" path="res://projection/remote.tscn" id="6_rvnw8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
 size = Vector3(10, 1, 10)
@@ -104,3 +105,5 @@ shape = SubResource("BoxShape3D_xw7rf")
 [node name="Button2" parent="." instance=ExtResource("5_6y22p")]
 transform = Transform3D(1, 0, 0, 0, 2.98023e-08, -1, 0, 1, 2.98023e-08, -2.131, 2.79428, -0.890479)
 resistance = 3.0
+
+[node name="Remote" parent="." instance=ExtResource("6_rvnw8")]
