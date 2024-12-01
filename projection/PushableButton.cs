@@ -37,7 +37,6 @@ public partial class PushableButton : StaticBody3D
 		var oldIsEnabled = IsEnabled;
 		IsEnabled = differenceFromCenter.Y > enabledThreshold;
 
-		GD.Print($"{range} {differenceFromCenter} {IsEnabled}");
 		if (oldIsEnabled != IsEnabled)
 		{
 			StandardMaterial3D material = new StandardMaterial3D();

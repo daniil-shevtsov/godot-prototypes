@@ -25,6 +25,7 @@ public partial class ProjectionPrototype : Node3D
 	private float zoomMultiplier = 1f;
 
 	private bool isStretching = true;
+	private bool isHolding = false;
 
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
@@ -69,7 +70,6 @@ public partial class ProjectionPrototype : Node3D
 
 		originalSubViewportSize = subViewport.Size;
 
-		// GD.Print($"panel {panelContainer.Size} {panelContainer.GlobalPosition}  label {label.Size} {label.GlobalPosition} {label.Position} shrek {shrek.SpriteFrames.GetFrameTexture("default", 0).GetSize() * shrek.Scale} {shrek.GlobalPosition}");
 	}
 
 	private void AssignSubviewportToQuad(SubViewport subViewport, MeshInstance3D quad)
@@ -182,6 +182,16 @@ public partial class ProjectionPrototype : Node3D
 			shrek.Stop();
 		}
 
+		if (isHolding)
+		{
+			remote.GlobalPosition = player.handMarker.GlobalPosition;
+			GD.Print($"TELEPORT REMOTE");
+			PhysicsServer3D.BodySetState(
+				remote.GetRid(),
+				PhysicsServer3D.BodyState.Transform,
+				Transform3D.Identity.Translated(player.handMarker.GlobalPosition)
+			);
+		}
 	}
 
 
@@ -198,6 +208,23 @@ public partial class ProjectionPrototype : Node3D
 			var newCameraRotation = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
 			player.tpsCamera.RotationDegrees = newCameraRotation;
 			player.fpsCamera.RotationDegrees = newCameraRotation;
+
+		}
+
+		if (Input.IsActionJustReleased("use"))
+		{
+			isStretching = !isStretching;
+
+			GD.Print("USE PRESSED");
+			isHolding = !isHolding;
+			// if (isHolding)
+			// {
+			// 	DropRemote();
+			// }
+			// else
+			// {
+			// 	GrabRemote();
+			// }
 
 		}
 
@@ -283,7 +310,6 @@ public partial class ProjectionPrototype : Node3D
 					 currentSize.X / originalSize.X,
 					 currentSize.Y / originalSize.Y
 				);
-				GD.Print($"multiplier: ${multiplier}");
 				subViewport.Size = new Vector2I(
 					(int)(originalSubViewportSize.X * multiplier.X),
 					(int)(originalSubViewportSize.Y * multiplier.Y)
@@ -292,11 +318,17 @@ public partial class ProjectionPrototype : Node3D
 		}
 
 		zoomMultiplier = 2;
+	}
 
-		if (Input.IsActionJustReleased("use"))
-		{
-			isStretching = !isStretching;
-		}
+	public void DropRemote()
+	{
+		isHolding = false;
+	}
+
+	public void GrabRemote()
+	{
+		// remote.GlobalPosition = player.handMarker.GlobalPosition;
+		isHolding = true;
 	}
 
 
