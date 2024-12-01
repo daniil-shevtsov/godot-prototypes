@@ -14,7 +14,6 @@ public partial class ProjectionPrototype : Node3D
 	private AnimatedSprite2D shrek;
 	private ProjectionPlayer player;
 	private Tv tv;
-	private Camera3D camera;
 
 	private PushableButton groundButton;
 	private Remote remote;
@@ -51,9 +50,11 @@ public partial class ProjectionPrototype : Node3D
 		label = (Label)FindChild("Label");
 		player = (ProjectionPlayer)FindChild("Player");
 		tv = (Tv)FindChild("TV");
-		camera = (Camera3D)FindChild("Camera3D");
 		groundButton = (PushableButton)FindChild("GroundButton");
 		remote = (Remote)FindChild("Remote");
+
+		player.fpsCamera.Current = false;
+		player.tpsCamera.Current = true;
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
 		AssignSubviewportToQuad(subViewport, projectionQuad);
@@ -193,7 +194,25 @@ public partial class ProjectionPrototype : Node3D
 			rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 2, Mathf.Pi / 2);
 
 			player.RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
-			camera.RotationDegrees = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
+			// var currentCamera = GetViewport().GetCamera3D();
+			var newCameraRotation = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
+			player.tpsCamera.RotationDegrees = newCameraRotation;
+			player.fpsCamera.RotationDegrees = newCameraRotation;
+
+		}
+
+		if (Input.IsActionJustReleased("toggle_camera"))
+		{
+			if (GetViewport().GetCamera3D() == player.tpsCamera)
+			{
+				player.tpsCamera.Current = false;
+				player.fpsCamera.Current = true;
+			}
+			else
+			{
+				player.tpsCamera.Current = true;
+				player.fpsCamera.Current = false;
+			}
 		}
 	}
 
