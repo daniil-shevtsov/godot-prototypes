@@ -176,7 +176,7 @@ public partial class ProjectionPrototype : Node3D
 				var body = collider as RigidBody3D;
 				var pushDirection = -collision.GetNormal();
 				var pushPosition = collisionPosition - body.GlobalPosition;
-				//body.ApplyImpulse(pushDirection * pushForce * (float)delta, pushPosition);
+				body.ApplyImpulse(pushDirection * pushForce * (float)delta, pushPosition);
 			}
 		}
 		if (groundButton.IsEnabled && !shrek.IsPlaying())
