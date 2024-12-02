@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=18 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
@@ -27,6 +27,12 @@ size = Vector3(10, 1, 10)
 size = Vector2(0.75, 0.75)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xw7rf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l87ca"]
+size = Vector3(0.5, 0.75, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ok7v6"]
+size = Vector3(0.5, 0.75, 0.2)
 
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
@@ -98,3 +104,13 @@ transform = Transform3D(1, 0, 0, 0, 2.98023e-08, -1, 0, 1, 2.98023e-08, -2.131, 
 resistance = 3.0
 
 [node name="Remote" parent="." instance=ExtResource("6_rvnw8")]
+
+[node name="RigidBody3D2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.467932, 1.85318, 1.50268)
+angular_damp = 99999.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
+shape = SubResource("BoxShape3D_l87ca")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D2"]
+mesh = SubResource("BoxMesh_ok7v6")

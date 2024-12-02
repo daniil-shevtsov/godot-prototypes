@@ -17,4 +17,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0117371, 0.6, -0.33031)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
 [node name="HandMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.417903, 0.54384, -1.7182)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -1.5)
+
+[node name="PlayerHolderJoint" type="HingeJoint3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.503938, 0.499167, -1.90442)
+node_a = NodePath("..")
+params/bias = 0.79
+angular_limit/enable = true
+angular_limit/upper = 0.785398
+angular_limit/lower = 0.0

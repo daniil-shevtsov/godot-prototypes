@@ -18,6 +18,7 @@ public partial class ProjectionPrototype : Node3D
 	private PushableButton groundButton;
 	private Remote remote;
 
+	public Joint3D playerHolderJoint;
 	private Vector2 originalSize = Vector2.Zero;
 	private Vector2 totalSizeChange = Vector2.Zero;
 
@@ -56,6 +57,11 @@ public partial class ProjectionPrototype : Node3D
 
 		player.fpsCamera.Current = false;
 		player.tpsCamera.Current = true;
+
+		var kek = player.playerHolderJoint.GlobalPosition;
+		kek.Y = kek.Y + remote.collisionShape.Size.Y / 2f;
+		remote.GlobalPosition = kek;
+		player.playerHolderJoint.NodeB = remote.GetPath();
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
 		AssignSubviewportToQuad(subViewport, projectionQuad);
@@ -170,7 +176,7 @@ public partial class ProjectionPrototype : Node3D
 				var body = collider as RigidBody3D;
 				var pushDirection = -collision.GetNormal();
 				var pushPosition = collisionPosition - body.GlobalPosition;
-				body.ApplyImpulse(pushDirection * pushForce * (float)delta, pushPosition);
+				//body.ApplyImpulse(pushDirection * pushForce * (float)delta, pushPosition);
 			}
 		}
 		if (groundButton.IsEnabled && !shrek.IsPlaying())
