@@ -114,3 +114,5 @@ shape = SubResource("BoxShape3D_l87ca")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D2"]
 mesh = SubResource("BoxMesh_ok7v6")
+
+[node name="Node3D" type="Node3D" parent="."]
