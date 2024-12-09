@@ -5,6 +5,8 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fw2fv"]
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 5
 script = ExtResource("1_niptk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

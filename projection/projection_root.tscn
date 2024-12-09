@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=20 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
@@ -34,6 +34,13 @@ size = Vector3(0.5, 0.75, 0.2)
 [sub_resource type="BoxMesh" id="BoxMesh_ok7v6"]
 size = Vector3(0.5, 0.75, 0.2)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8rubm"]
+height = 0.45
+radius = 1.275
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nrj2i"]
+height = 0.711906
+
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
 mouseSensitivity = 0.01
@@ -41,6 +48,7 @@ jumpForce = 3.0
 pushForce = 15.0
 
 [node name="Floor" type="StaticBody3D" parent="."]
+collision_mask = 14
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("BoxShape3D_6d7ul")
@@ -91,6 +99,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00181699, 0.58029)
 [node name="Player" parent="." instance=ExtResource("4_512ww")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
 
+[node name="PinJoint3D" type="PinJoint3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.527161)
+node_a = NodePath("..")
+node_b = NodePath("../../Test/Base")
+
 [node name="GroundButton" parent="." instance=ExtResource("5_6y22p")]
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
@@ -116,3 +129,28 @@ shape = SubResource("BoxShape3D_l87ca")
 mesh = SubResource("BoxMesh_ok7v6")
 
 [node name="Node3D" type="Node3D" parent="."]
+
+[node name="Test" type="Node3D" parent="."]
+transform = Transform3D(-8.81093e-10, 0.0201572, -0.999797, -1, -4.37114e-08, -1.50144e-15, -4.37025e-08, 0.999797, 0.0201572, 0.15862, 2.26547, 4.10598)
+
+[node name="Base" type="RigidBody3D" parent="Test"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Test/Base"]
+shape = SubResource("CylinderShape3D_8rubm")
+
+[node name="Attachment" type="RigidBody3D" parent="Test"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Test/Attachment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.357355, 0)
+shape = SubResource("CylinderShape3D_nrj2i")
+
+[node name="PinJoint3D" type="JoltPinJoint3D" parent="Test"]
+node_a = NodePath("../Base")
+node_b = NodePath("../Attachment")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[node name="JoltPinJoint3D" type="JoltPinJoint3D" parent="Test"]
+node_a = NodePath("../Attachment")
+node_b = NodePath("../Base")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

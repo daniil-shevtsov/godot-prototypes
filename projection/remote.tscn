@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bnibooycb66ha"]
+[gd_scene load_steps=7 format=3 uid="uid://bnibooycb66ha"]
 
 [ext_resource type="Script" path="res://projection/Remote.cs" id="1_laa7m"]
+[ext_resource type="PackedScene" uid="uid://cofbj0p0olsa3" path="res://projection/remote_button.tscn" id="2_aqmj1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iccrw"]
 size = Vector3(0.75, 1, 0.25)
@@ -15,6 +16,8 @@ size = Vector2(0.6, 0.5)
 
 [node name="Remote" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 2)
+collision_layer = 4
+collision_mask = 11
 script = ExtResource("1_laa7m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -27,3 +30,13 @@ mesh = SubResource("BoxMesh_ybqk5")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.194392, 0.132958)
 material_override = SubResource("StandardMaterial3D_l8imq")
 mesh = SubResource("PlaneMesh_hawep")
+
+[node name="Button" parent="." instance=ExtResource("2_aqmj1")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.130995, 0.0554066, -0.56652)
+collision_layer = 8
+collision_mask = 7
+
+[node name="PinJoint3D" type="PinJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.211203)
+node_a = NodePath("..")
+node_b = NodePath("../Button")
