@@ -209,12 +209,28 @@ public partial class ProjectionPrototype : Node3D
 			rotation.X -= mouseMotion.Relative.Y * mouseSensitivity;
 			rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 2, Mathf.Pi / 2);
 
-			player.RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
-			// var currentCamera = GetViewport().GetCamera3D();
+			// player.RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
 			var newCameraRotation = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
-			player.tpsCamera.RotationDegrees = newCameraRotation;
-			player.fpsCamera.RotationDegrees = newCameraRotation;
-
+			// player.tpsCamera.RotationDegrees = newCameraRotation;
+			// player.fpsCamera.RotationDegrees = newCameraRotation;
+			var testPlayer = GetNode<RigidBody3D>("TestPlayer");
+			var tpsCamera = testPlayer.GetNode<Camera3D>("Camera3D");
+			if (GetViewport().GetCamera3D() != tpsCamera)
+			{
+				player.tpsCamera.Current = false;
+				player.fpsCamera.Current = false;
+				tpsCamera.Current = true;
+			}
+			//testPlayer.RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
+			var desiredDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
+			var difference = desiredDegrees - testPlayer.RotationDegrees;
+			var torque = difference;
+			var kek = rotation.Y;
+			GD.Print($"TORQUE: {torque} {desiredDegrees} {testPlayer.RotationDegrees}");
+			testPlayer.ApplyTorqueImpulse(torque);
+			// rotation = new Vector2(testPlayer.RotationDegrees.X, testPlayer.RotationDegrees.Y);
+			// tpsCamera.RotationDegrees = newCameraRotation;
+			GD.Print($"rotate camera {tpsCamera.RotationDegrees} testplayer {testPlayer.RotationDegrees}");
 		}
 
 		if (Input.IsActionJustReleased("use"))
