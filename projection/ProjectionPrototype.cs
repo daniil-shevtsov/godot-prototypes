@@ -233,13 +233,13 @@ public partial class ProjectionPrototype : Node3D
 			var newCameraRotation = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
 			// player.tpsCamera.RotationDegrees = newCameraRotation;
 			// player.fpsCamera.RotationDegrees = newCameraRotation;
-			var tpsCamera = testPlayer.GetNode<Camera3D>("Camera3D");
-			if (GetViewport().GetCamera3D() != tpsCamera)
-			{
-				player.tpsCamera.Current = false;
-				player.fpsCamera.Current = false;
-				tpsCamera.Current = true;
-			}
+			// var tpsCamera = testPlayer.GetNode<Camera3D>("Camera3D");
+			// if (GetViewport().GetCamera3D() != tpsCamera)
+			// {
+			// 	player.tpsCamera.Current = false;
+			// 	player.fpsCamera.Current = false;
+			// 	tpsCamera.Current = true;
+			// }
 			
 			targetYaw   -= mouseMotion.Relative.X * mouseSensitivity;
 			targetPitch -= mouseMotion.Relative.Y * mouseSensitivity;
