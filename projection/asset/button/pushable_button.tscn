@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b1kgtlk1k4tvb"]
 
-[ext_resource type="Script" uid="uid://6probwqkcd2" path="res://projection/PushableButton.cs" id="1_1h7cw"]
+[ext_resource type="Script" uid="uid://6probwqkcd2" path="res://projection/asset/button/PushableButton.cs" id="1_1h7cw"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_1is1y"]
 height = 0.25

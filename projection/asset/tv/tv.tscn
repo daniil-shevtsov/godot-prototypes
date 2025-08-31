@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpu6asal2nq07"]
+
+[ext_resource type="Script" uid="uid://t8eykosvswr2" path="res://projection/asset/tv/Tv.cs" id="1_trr1e"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lek2k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ecehe"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qccd0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w5spa"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_n52s6"]
+size = Vector2(0.75, 0.75)
+
+[node name="TV" type="Node3D"]
+script = ExtResource("1_trr1e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.445028, -0.509565)
+
+[node name="HingeJoint3D" type="HingeJoint3D" parent="StaticBody3D"]
+node_a = NodePath("..")
+node_b = NodePath("../../Cube")
+motor/enable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_lek2k")
+
+[node name="Cube" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342086, 0.706612)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
+shape = SubResource("BoxShape3D_ecehe")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Cube"]
+mesh = SubResource("BoxMesh_qccd0")
+
+[node name="ProjectionQuad" type="MeshInstance3D" parent="Cube"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.51)
+material_override = SubResource("StandardMaterial3D_w5spa")
+mesh = SubResource("PlaneMesh_n52s6")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00181699, 0.58029)

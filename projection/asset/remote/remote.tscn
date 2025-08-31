@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bnibooycb66ha"]
 
-[ext_resource type="Script" uid="uid://rb2o5mvicad5" path="res://projection/Remote.cs" id="1_laa7m"]
-[ext_resource type="PackedScene" uid="uid://cofbj0p0olsa3" path="res://projection/remote_button.tscn" id="2_aqmj1"]
+[ext_resource type="Script" uid="uid://rb2o5mvicad5" path="res://projection/asset/remote/Remote.cs" id="1_laa7m"]
+[ext_resource type="PackedScene" uid="uid://cofbj0p0olsa3" path="res://projection/asset/remote/remote_button.tscn" id="2_aqmj1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iccrw"]
 size = Vector3(0.75, 1, 0.25)
