@@ -13,6 +13,7 @@ public partial class ProjectionPrototype : Node3D
 	private Label label;
 	private AnimatedSprite2D shrek;
 	private ProjectionPlayer player;
+	private RigidBody3D testPlayer;
 	private Tv tv;
 
 	private PushableButton groundButton;
@@ -32,7 +33,7 @@ public partial class ProjectionPrototype : Node3D
 	public const float JumpVelocity = 4.5f;
 
 	[Export] private float speed = 5.0f;
-	[Export] private float mouseSensitivity = 0.1f;
+	[Export] private float mouseSensitivity = 0.01f;
 	[Export] private float jumpForce = 10.0f;
 	[Export] private float gravity = 3.8f;
 
@@ -40,6 +41,10 @@ public partial class ProjectionPrototype : Node3D
 
 	private Vector3 velocity = Vector3.Zero;
 	private Vector2 rotation = Vector2.Zero;
+	private float targetPitch = 0f;
+	private float targetYaw = 0f;
+
+	private float torqueY = 0f;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -57,11 +62,14 @@ public partial class ProjectionPrototype : Node3D
 
 		player.fpsCamera.Current = false;
 		player.tpsCamera.Current = true;
+		
+		testPlayer = GetNode<RigidBody3D>("TestPlayer");
 
-		var kek = player.playerHolderJoint.GlobalPosition;
-		kek.Y = kek.Y + remote.collisionShape.Size.Y / 2f;
-		remote.GlobalPosition = kek;
-		player.playerHolderJoint.NodeB = remote.GetPath();
+
+		//var kek = player.playerHolderJoint.GlobalPosition;
+		//kek.Y = kek.Y + remote.collisionShape.Size.Y / 2f;
+		//remote.GlobalPosition = kek;
+		//player.playerHolderJoint.NodeB = remote.GetPath();
 
 		RenderingServer.ViewportSetClearMode(subViewport.GetViewportRid(), RenderingServer.ViewportClearMode.Never);
 		AssignSubviewportToQuad(subViewport, projectionQuad);
@@ -198,6 +206,18 @@ public partial class ProjectionPrototype : Node3D
 				Transform3D.Identity.Translated(player.handMarker.GlobalPosition)
 			);
 		}
+
+		var currentYaw = testPlayer.Rotation.Y;
+		var yawError   = Mathf.AngleDifference(currentYaw, targetYaw);
+
+		float stiffness = 30f;
+		float damping   = 5f;
+
+		float torqueY = (yawError * stiffness) - (testPlayer.AngularVelocity.Y * damping);
+		testPlayer.ApplyTorque(new Vector3(0, torqueY, 0));
+
+// Apply pitch directly to camera (not physics, just rotation)
+		testPlayer.GetNode<Camera3D>("Camera3D").Rotation = new Vector3(targetPitch, 0, 0);
 	}
 
 
@@ -213,7 +233,6 @@ public partial class ProjectionPrototype : Node3D
 			var newCameraRotation = new Vector3(Mathf.RadToDeg(rotation.X), 0, 0);
 			// player.tpsCamera.RotationDegrees = newCameraRotation;
 			// player.fpsCamera.RotationDegrees = newCameraRotation;
-			var testPlayer = GetNode<RigidBody3D>("TestPlayer");
 			var tpsCamera = testPlayer.GetNode<Camera3D>("Camera3D");
 			if (GetViewport().GetCamera3D() != tpsCamera)
 			{
@@ -221,16 +240,10 @@ public partial class ProjectionPrototype : Node3D
 				player.fpsCamera.Current = false;
 				tpsCamera.Current = true;
 			}
-			//testPlayer.RotationDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
-			var desiredDegrees = new Vector3(0, Mathf.RadToDeg(rotation.Y), 0);
-			var difference = desiredDegrees - testPlayer.RotationDegrees;
-			var torque = difference;
-			var kek = rotation.Y;
-			GD.Print($"TORQUE: {torque} {desiredDegrees} {testPlayer.RotationDegrees}");
-			testPlayer.ApplyTorqueImpulse(torque);
-			// rotation = new Vector2(testPlayer.RotationDegrees.X, testPlayer.RotationDegrees.Y);
-			// tpsCamera.RotationDegrees = newCameraRotation;
-			GD.Print($"rotate camera {tpsCamera.RotationDegrees} testplayer {testPlayer.RotationDegrees}");
+			
+			targetYaw   -= mouseMotion.Relative.X * mouseSensitivity;
+			targetPitch -= mouseMotion.Relative.Y * mouseSensitivity;
+			targetPitch = Mathf.Clamp(targetPitch, -Mathf.Pi/2, Mathf.Pi/2);
 		}
 
 		if (Input.IsActionJustReleased("use"))
