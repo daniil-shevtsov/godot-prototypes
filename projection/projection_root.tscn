@@ -1,8 +1,8 @@
 [gd_scene load_steps=21 format=3 uid="uid://dv6oyi1p6venp"]
 
-[ext_resource type="Script" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
+[ext_resource type="Script" uid="uid://vd7cujtck7vf" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/shrek_screen.tscn" id="2_iml4i"]
-[ext_resource type="Script" path="res://projection/Tv.cs" id="3_b07y0"]
+[ext_resource type="Script" uid="uid://t8eykosvswr2" path="res://projection/Tv.cs" id="3_b07y0"]
 [ext_resource type="PackedScene" uid="uid://cfyubooc86dw3" path="res://projection/projection_player.tscn" id="4_512ww"]
 [ext_resource type="PackedScene" uid="uid://b1kgtlk1k4tvb" path="res://projection/pushable_button.tscn" id="5_6y22p"]
 [ext_resource type="PackedScene" uid="uid://bnibooycb66ha" path="res://projection/remote.tscn" id="6_rvnw8"]

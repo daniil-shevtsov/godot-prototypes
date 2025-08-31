@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cia47cd0jvuqn"]
 
-[ext_resource type="Script" path="res://physics/player.cs" id="1_t6n4o"]
+[ext_resource type="Script" uid="uid://djnolcec0g3c3" path="res://physics/player.cs" id="1_t6n4o"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nyth7"]
 size = Vector3(10.3695, 1, 8.36707)

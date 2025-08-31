@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsd2vthraxrx0"]
 
-[ext_resource type="Script" path="res://persistence/Playerr.cs" id="1_xly1r"]
+[ext_resource type="Script" uid="uid://da2jndsc7y31f" path="res://persistence/Playerr.cs" id="1_xly1r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6h72m"]
 

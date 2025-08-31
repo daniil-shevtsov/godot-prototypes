@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://qdcn1b15bec3"]
 
-[ext_resource type="Script" path="res://persistence/Persistence.cs" id="1_4ce5v"]
+[ext_resource type="Script" uid="uid://cj5kqnhgn8s5p" path="res://persistence/Persistence.cs" id="1_4ce5v"]
 
 [node name="PersistenceRoot" type="Node3D"]
 script = ExtResource("1_4ce5v")
