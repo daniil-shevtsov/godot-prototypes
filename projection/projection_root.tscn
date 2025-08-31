@@ -34,8 +34,6 @@ radius = 0.15
 
 [node name="ProjectionRoot" type="Node3D"]
 script = ExtResource("1_osm2g")
-jumpForce = 3.0
-pushForce = 15.0
 
 [node name="Floor" type="StaticBody3D" parent="."]
 collision_mask = 14
