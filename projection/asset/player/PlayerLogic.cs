@@ -27,13 +27,26 @@ public class PlayerLogic
     
     private void initPlayer()
     {
-        player.fpsCamera.Current = false;
-        player.tpsCamera.Current = true;
+       SwitchCamera();
 		
         //var kek = player.playerHolderJoint.GlobalPosition;
         //kek.Y = kek.Y + remote.collisionShape.Size.Y / 2f;
         //remote.GlobalPosition = kek;
         //player.playerHolderJoint.NodeB = remote.GetPath();
+    }
+
+    private void SwitchCamera()
+    {
+        if (_root.GetViewport().GetCamera3D() == player.tpsCamera)
+        {
+            player.tpsCamera.Current = false;
+            player.fpsCamera.Current = true;
+        }
+        else
+        {
+            player.tpsCamera.Current = true;
+            player.fpsCamera.Current = false;
+        }
     }
     
     public void PhysicsProcess(float delta)
@@ -103,16 +116,7 @@ public class PlayerLogic
             // }
         } else if (action == PlayerAction.ToggleCamera)
         {
-            if (_root.GetViewport().GetCamera3D() == player.tpsCamera)
-            {
-                player.tpsCamera.Current = false;
-                player.fpsCamera.Current = true;
-            }
-            else
-            {
-                player.tpsCamera.Current = true;
-                player.fpsCamera.Current = false;
-            }
+            SwitchCamera();
         }
     }
     
