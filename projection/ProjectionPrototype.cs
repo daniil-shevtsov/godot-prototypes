@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using Prototypes.projection.asset.button;
 using Prototypes.projection.asset.player;
 
 public partial class ProjectionPrototype : Node3D
@@ -12,7 +13,8 @@ public partial class ProjectionPrototype : Node3D
 	
 	private RigidBody3D testPlayer;
 
-	private PushableButton groundButton;
+	private MyButton groundButton;
+	private MyButton colliderGroundButton;
 
 	public Joint3D playerHolderJoint;
 	
@@ -76,7 +78,7 @@ public partial class ProjectionPrototype : Node3D
 		var input = Input.GetVector("left", "right", "backwards", "forward");
 		_playerLogic.HandleInput(input, (float)delta);
 
-		tvLogic.Button(groundButton.IsEnabled);
+		tvLogic.Button(groundButton.GetEnabled());
 
 		_playerLogic.PhysicsProcess((float)delta);
 	}
@@ -114,7 +116,8 @@ public partial class ProjectionPrototype : Node3D
 
 	private void initProps()
 	{
-		groundButton = (PushableButton)FindChild("GroundButton");
+		groundButton = (MyButton)FindChild("GroundButton");
+		colliderGroundButton = (MyButton)FindChild("ColliderGroundButton");
 		remote = (Remote)FindChild("Remote");
 	}
 

@@ -1,13 +1,11 @@
 using Godot;
 using System;
+using Prototypes.projection.asset.button;
 
-public partial class PushableButton : StaticBody3D
+public partial class PushableButton : StaticBody3D, MyButton
 {
-	[Export]
-	public float resistance = 0f;
-
-	[Export]
-	public float enabledThreshold = 0.20f;
+	private float _resistance = 0f;
+	private float _enabledThreshold = 0.20f;
 
 	public SliderJoint3D SliderJoint;
 	public RigidBody3D ButtonBody;
@@ -28,14 +26,25 @@ public partial class PushableButton : StaticBody3D
 	{
 	}
 
+	public void Init(float resistance, float enabledThreshold)
+	{
+		_resistance = resistance;
+		_enabledThreshold = enabledThreshold;
+	}
+
+	public bool GetEnabled()
+	{
+		return IsEnabled;
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
-		ButtonBody.ApplyCentralImpulse(Transform.Basis.Y * resistance * (float)delta);
+		ButtonBody.ApplyCentralImpulse(Transform.Basis.Y * _resistance * (float)delta);
 
 		var range = SliderJoint.GetParam(SliderJoint3D.Param.LinearLimitUpper) * 2;
 		var differenceFromCenter = SliderJoint.GlobalPosition - ButtonBody.GlobalPosition;
 		var oldIsEnabled = IsEnabled;
-		IsEnabled = differenceFromCenter.Y > enabledThreshold;
+		IsEnabled = differenceFromCenter.Y > _enabledThreshold;
 
 		if (oldIsEnabled != IsEnabled)
 		{

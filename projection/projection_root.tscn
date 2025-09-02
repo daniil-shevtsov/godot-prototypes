@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dv6oyi1p6venp"]
+[gd_scene load_steps=17 format=3 uid="uid://dv6oyi1p6venp"]
 
 [ext_resource type="Script" uid="uid://vd7cujtck7vf" path="res://projection/ProjectionPrototype.cs" id="1_osm2g"]
 [ext_resource type="PackedScene" uid="uid://bcuewsn42c2wn" path="res://projection/asset/tv/shrek_screen.tscn" id="2_iml4i"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b1kgtlk1k4tvb" path="res://projection/asset/button/pushable_button.tscn" id="5_6y22p"]
 [ext_resource type="PackedScene" uid="uid://dpu6asal2nq07" path="res://projection/asset/tv/tv.tscn" id="6_bpjeh"]
 [ext_resource type="PackedScene" uid="uid://bnibooycb66ha" path="res://projection/asset/remote/remote.tscn" id="6_rvnw8"]
+[ext_resource type="PackedScene" uid="uid://cmojo81ms6k5y" path="res://projection/asset/button/collider_button.tscn" id="7_htjof"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6d7ul"]
 size = Vector3(10, 1, 10)
@@ -59,6 +60,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.527161)
 node_a = NodePath("..")
 
 [node name="GroundButton" parent="." instance=ExtResource("5_6y22p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.27116, 0.794283, 1.38751)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.09533, 5.78969, 0)
@@ -70,7 +72,6 @@ shape = SubResource("BoxShape3D_xw7rf")
 
 [node name="Button2" parent="." instance=ExtResource("5_6y22p")]
 transform = Transform3D(1, 0, 0, 0, 2.98023e-08, -1, 0, 1, 2.98023e-08, -2.131, 2.79428, -0.890479)
-resistance = 3.0
 
 [node name="Remote" parent="." instance=ExtResource("6_rvnw8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42171, 3, 2)
@@ -140,3 +141,6 @@ visible = false
 
 [node name="TV" parent="." instance=ExtResource("6_bpjeh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61971, -3.26356)
+
+[node name="Button" parent="." instance=ExtResource("7_htjof")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4151, 0)
