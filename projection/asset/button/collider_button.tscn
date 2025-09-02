@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmojo81ms6k5y"]
+
+[ext_resource type="Script" uid="uid://d3kyceldmw864" path="res://projection/asset/button/ColliderButton.cs" id="1_6j8yj"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1is1y"]
+height = 0.25
+radius = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xr5h1"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_74cpi"]
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qv6li"]
+albedo_color = Color(1, 0.176471, 0.156863, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tdwyo"]
+material = SubResource("StandardMaterial3D_qv6li")
+height = 0.5
+
+[node name="Button" type="RigidBody3D"]
+script = ExtResource("1_6j8yj")
+
+[node name="ButtonBaseCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120308, 0)
+shape = SubResource("CylinderShape3D_1is1y")
+
+[node name="BaseTop" type="Marker3D" parent="ButtonBaseCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.360722, 0)
+
+[node name="BaseBottom" type="Marker3D" parent="ButtonBaseCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.150151, 0)
+
+[node name="ButtonBaseMesh" type="MeshInstance3D" parent="ButtonBaseCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.105716, 0)
+mesh = SubResource("CylinderMesh_xr5h1")
+skeleton = NodePath("../..")
+
+[node name="ButtonCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.478369, 0)
+shape = SubResource("CylinderShape3D_74cpi")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ButtonCollider"]
+mesh = SubResource("CylinderMesh_tdwyo")
+skeleton = NodePath("")
+
+[node name="ButtonTop" type="Marker3D" parent="ButtonCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.254616, 0)
+
+[node name="ButtonBottom" type="Marker3D" parent="ButtonCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.249, 0)
